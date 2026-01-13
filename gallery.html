@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Birthday Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            /* This freezes the screen size to exactly the phone height */
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents any scrolling */
+        }
+
+        body {
+            background-image: url('bpap.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Centers the whole block vertically */
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #456a47;
+            text-align: center;
+            margin: 0 0 20px 0; /* Minimal margins */
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 350px; /* Slimmer for mobile feel */
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; /* Tightened gap */
+        }
+
+        .card {
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 18px;
+            padding: 20px 10px; /* Reduced padding to save height */
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            height: 110px; /* Fixed height for cards to ensure they fit */
+        }
+
+        .card-wide {
+            grid-column: 1 / -1;
+            height: 130px; /* Slightly taller for the main gift */
+            border: 2px solid #6b8e61;
+        }
+
+        .card h2 {
+            color: #4a6343;
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #777;
+            margin: 4px 0 0;
+            font-size: 0.75rem;
+        }
+
+        /* Locked / Unlocked States */
+        .card.locked {
+            filter: grayscale(1) opacity(0.6);
+        }
+
+        .card.locked::after {
+            content: '🔒';
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .pulse {
+            animation: softPulse 2s infinite;
+            border: 1.5px solid #6b8e61;
+        }
+
+        @keyframes softPulse {
+            0% { box-shadow: 0 0 0 0 rgba(107, 142, 97, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(107, 142, 97, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(107, 142, 97, 0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .apply-shake {
+            animation: shake 0.3s ease-in-out;
+            border-color: #ff4d4d !important;
+        }
+
+        .card:active:not(.locked) {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body>
+  
+    <h1>Happy Birthday Dharshini!</h1>
+    
+    <div class="container">
+        <div class="card-grid">
+            <a href="song.html" class="card card-1">
+                <div class="card-content">
+                    <h2>Song</h2>
+                    <p>rythm of romance</p>
+                </div>
+            </a>
+            
+            <a href="game.html" class="card card-2 locked">
+                <div class="card-content">
+                    <h2>Game</h2>
+                    <p>winnn plss</p>
+                </div>
+            </a>
+
+            <a href="gallery.html" class="card card-3 locked">
+                <div class="card-content">
+                    <h2>Gallery</h2>
+                    <p>dare to glare</p>
+                </div>
+            </a>
+
+            <a href="memories.html" class="card card-4 locked">
+                <div class="card-content">
+                    <h2>Memories</h2>
+                    <p>look back</p>
+                </div>
+            </a>
+
+            <a href="gift.html" class="card card-5 card-wide locked">
+                <div class="card-content">
+                    <h2>18 Pages: Your Gift</h2>
+                    <p>The grand finale awaits!</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const sequence = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'];
+
+        function refreshLocks() {
+            sequence.forEach((className, index) => {
+                const currentCard = document.querySelector(`.${className}`);
+                if (index === 0) return;
+
+                const previousCardName = sequence[index - 1];
+                if (localStorage.getItem(previousCardName) === 'done') {
+                    currentCard.classList.remove('locked');
+                }
+            });
+
+            // Pulse the LATEST unlocked card
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
+            const unlockedCards = document.querySelectorAll('.card:not(.locked)');
+            unlockedCards[unlockedCards.length - 1].classList.add('pulse');
+        }
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (this.classList.contains('locked')) {
+                    e.preventDefault();
+                    this.classList.add('apply-shake');
+                    setTimeout(() => this.classList.remove('apply-shake'), 300);
+                } else {
+                    const myClass = sequence.find(cls => this.classList.contains(cls));
+                    localStorage.setItem(myClass, 'done');
+                }
+            });
+        });
+
+        window.onload = refreshLocks;
+    </script>
+</body>
+</html>
+
