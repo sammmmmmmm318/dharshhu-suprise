@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Dharshini!</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     
     <style>
         body {
-            background-color: #fcfcfc;
-            /* Gingham Pattern Matching Your Image */
-            background-image: 
-                linear-gradient(90deg, rgba(122, 145, 122, 0.3) 50%, transparent 50%),
-                linear-gradient(rgba(122, 145, 122, 0.3) 50%, transparent 50%);
-            background-size: 60px 60px;
+            /* This uses your image exactly as it is */
+            background-image: url('background.png'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
             font-family: 'Segoe UI', Tahoma, sans-serif;
             display: flex;
             flex-direction: column;
@@ -23,15 +22,15 @@
             margin: 0;
         }
 
-        /* Updated to match the exact font style in your image */
+        /* Title using Great Vibes */
         h1 {
             color: #4a674a;
-            font-family: 'Dancing Script', cursive; 
-            font-size: clamp(2.8rem, 10vw, 4.5rem);
+            font-family: 'Great Vibes', cursive; 
+            font-size: clamp(3.5rem, 12vw, 5rem); /* Great Vibes runs smaller, so we increased size */
             margin-bottom: 40px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
             text-align: center;
-            font-weight: 700;
+            font-weight: 400; /* Great Vibes looks best at normal weight */
         }
 
         .grid {
@@ -46,43 +45,42 @@
             border-radius: 25px;
             padding: 30px 10px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             position: relative;
             transition: all 0.3s ease;
             border: 2px solid transparent;
         }
 
-        .card-large { grid-column: span 2; padding: 40px 10px; border: 2px solid #7a917a; }
+        .card-large { grid-column: span 2; padding: 40px 10px; }
 
         .card h2 { margin: 0; font-size: 1.2rem; color: #4a674a; }
         .card p { margin: 5px 0 0; font-size: 0.9rem; color: #888; }
 
-        /* Lock Visibility Fix */
+        /* Lock Icon Fix */
         .lock-status {
             position: absolute;
             top: 15px;
             right: 18px;
             font-size: 1.2rem;
-            opacity: 0; /* Hidden by default */
-            transition: opacity 0.3s;
+            display: none; /* Hidden by default */
         }
 
-        /* Styles for when a card is locked */
+        /* Locked State Styles */
         .card.locked {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             cursor: not-allowed;
         }
 
         .card.locked .lock-status {
-            opacity: 1; /* Make lock visible */
+            display: block; /* Show lock icon */
         }
 
         .card.locked h2, .card.locked p {
             opacity: 0.3; /* Fade text */
         }
 
-        /* Animations */
+        /* Interaction Animations */
         .apply-shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -91,7 +89,7 @@
         }
 
         .pulse {
-            border-color: #7a917a;
+            border: 2px solid #7a917a;
             animation: pulse-ring 2s infinite;
         }
         @keyframes pulse-ring {
@@ -149,7 +147,6 @@
                     card.classList.remove('locked');
                 } else {
                     const prevCard = sequence[index - 1];
-                    // Logic: Unlock if the previous item is marked 'done'
                     if (localStorage.getItem(prevCard) === 'done') {
                         card.classList.remove('locked');
                     } else {
@@ -158,7 +155,7 @@
                 }
             });
 
-            // Pulse the current available step
+            // Pulse the next card to be clicked
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
             const unlocked = document.querySelectorAll('.card:not(.locked)');
             if (unlocked.length > 0) {
@@ -179,18 +176,15 @@
                 return;
             }
 
-            // Save progress
             localStorage.setItem(cardClass, 'done');
             refreshLocks();
 
-            // Navigate
             setTimeout(() => {
                 window.location.href = url;
             }, 150);
         }
 
-        // AUTO-REFRESH LOGIC
-        // This ensures locks update when returning to the page
+        // Essential refresh listeners
         window.addEventListener('pageshow', refreshLocks);
         window.onload = refreshLocks;
         document.addEventListener('visibilitychange', () => {
