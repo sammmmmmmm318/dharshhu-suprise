@@ -1,10 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>song name</title>
-  <link rel="stylesheet" href="song.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Title - Lyrics</title>
+    <style>
+        /* CSS Styles go here */
+        body {
+            background-color: #0f0f0f; /* Sleek dark background */
+            color: #ffffff;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 100px; /* Space for the bottom player */
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(to bottom, #1db95433, #0f0f0f);
+            width: 100%;
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 5px; color: #1DB954; }
+        h2 { font-size: 1.2rem; font-weight: 300; opacity: 0.8; margin-top: 0; }
+
+        .lyrics-container {
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            line-height: 1.8;
+            font-size: 1.3rem;
+            white-space: pre-line; /* Keeps your line breaks exactly as written */
+        }
+
+        .verse-marker {
+            color: #1DB954;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 40px;
+            display: block;
+        }
+
+        /* Fixed Player at the Bottom */
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #181818;
+            border-top: 1px solid #333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+        }
+
+        audio {
+            width: 80%;
+            max-width: 500px;
+            filter: invert(100%) hue-rotate(180deg) brightness(1.5); /* Makes player match dark theme */
+        }
+    </style>
 </head>
 <body>
-  
+
+    <div class="header">
+        <h1>Your Song Title</h1>
+        <h2>Written by Your Name</h2>
+    </div>
+
+    <div class="lyrics-container">
+        <span class="verse-marker">[Verse 1]</span>
+        ahh, the voice of "hi" that wakes me up; 
+        the "love you" that close my eyes. 
+        harmony of romance flushes me all day;
+        and this voice of her belongs to me?
+        
+        <span class="verse-marker">[Verse 2]</span>
+        her blow of breath shivers me apart, 
+        look of hers mutes my world. 
+        collision of lips i never wanna avert; 
+        the kiss that feels like eternity
+        
+        <span class="verse-marker">[Verse 3]</span>
+        her eyes, the stars i glaze at 
+        with the distance i wanna displace to millimeters. 
+        the way she wraps me between her hands, 
+        she overwhelms me within my own heart
+
+       <span class="verse-marker">[Verse 4]</span>
+        the mermaid's hair I wanna hide in 
+        with the waist I will willingly lose my dexterity too.
+        times when even virtual screen hit me blushing;
+        the time I belonged to her
+
+      <span class="verse-marker">[Verse 5]</span>
+        ohh the greenery of my wardrobe; 
+        the urge to hold her closer ughhh, 
+        the chronic poison that surges through me 
+        just found out meeting you was the medicine!!
+
+    </div>
+
+    <div class="player-bar">
+        <audio controls>
+            <source src=belong?.mp3 type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
 </body>
 </html>
