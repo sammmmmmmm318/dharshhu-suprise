@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Belong?</title>
+    <title>Belong? - Lyrics</title>
     <style>
-        /* Forces the container to be exactly the size of the screen */
+        /* Lock the viewport to prevent all scrolling */
         html, body {
             height: 100%;
+            width: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* No scrolling allowed */
+            overflow: hidden; 
+            touch-action: none; /* Prevents accidental swipe-to-scroll */
         }
 
         body {
@@ -21,18 +23,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Centers everything vertically */
+            justify-content: center; 
             text-align: center;
-            cursor: pointer;
             box-sizing: border-box;
+            padding: 2vh 0; /* Vertical padding based on height */
         }
 
         .header {
-            margin-bottom: 10px;
+            margin-bottom: 1vh;
+            flex-shrink: 0;
         }
 
         h1 { 
-            font-size: clamp(1.5rem, 5vh, 2.2rem); 
+            font-size: 3.5vh; /* Scaled to screen height */
             margin: 0; 
             color: #ffffff;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
@@ -40,50 +43,65 @@
         }
 
         h2 { 
-            font-size: 0.7rem; 
+            font-size: 1.2vh; 
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #ffffff;
-            opacity: 0.9;
-            margin: 2px 0;
+            opacity: 0.8;
+            margin: 0.5vh 0;
         }
 
         .lyrics-container {
-            width: 90%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.15); 
+            width: 90vw; /* 90% of screen width */
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.12); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 20px 15px;
+            border-radius: 15px;
+            padding: 2vh 3vw;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .lyrics-text {
-            /* Font size scales based on screen height to ensure no overflow */
-            font-size: clamp(0.7rem, 1.8vh, 1.1rem); 
-            line-height: 1.5;
+            /* Font size is carefully calculated to fit all lines on a 6.2" screen */
+            font-size: 1.7vh; 
+            line-height: 1.4;
             white-space: pre-line;
             color: #ffffff;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        
-
-        #bg-audio { display: none; }
-
-        #tap-hint {
-            position: fixed;
-            bottom: 20px;
-            color: white;
-            font-size: 0.6rem;
-            letter-spacing: 1px;
+        .verse-spacer {
+            display: block;
+            margin: 10px 0; /* Your requested 10px spacing */
+            color: #ffffff;
+            font-size: 1.5vh;
             opacity: 0.6;
         }
+
+        #unmute-btn {
+            margin-top: 2vh;
+            padding: 1vh 5vw;
+            border-radius: 20px;
+            border: 1px solid white;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1.4vh;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            flex-shrink: 0;
+        }
+
+        audio { display: none; }
     </style>
 </head>
-<body onclick="playMusic()">
+<body>
 
     <div class="header">
         <h1>belong?</h1>
@@ -91,47 +109,50 @@
     </div>
 
     <div class="lyrics-container">
-        <div class="lyrics-text">
-            ahh, the voice of "hi" that wakes me up; 
+        <div class="lyrics-text">ahh, the voice of "hi" that wakes me up; 
             the "love you" that close my eyes. 
             harmony of romance flushes me all day;
             and this voice of her belongs to me?
-        
-            her blow of breath shivers me apart, 
+            <span class="verse-spacer">❦</span>her blow of breath shivers me apart, 
             look of hers mutes my world. 
             collision of lips i never wanna avert; 
             the kiss that feels like eternity
-            
-            her eyes, the stars i glaze at 
+            <span class="verse-spacer">❦</span>her eyes, the stars i glaze at 
             with the distance i wanna displace to millimeters. 
             the way she wraps me between her hands, 
             she overwhelms me within my own heart
-            
-            the mermaid's hair I wanna hide in 
+            <span class="verse-spacer">❦</span>the mermaid's hair I wanna hide in 
             with the waist I will willingly lose my dexterity too.
             times when even virtual screen hit me blushing;
             the time I belonged to her
-
-            ohh the greenery of my wardrobe; 
+            <span class="verse-spacer">❦</span>ohh the greenery of my wardrobe; 
             the urge to hold her closer ughhh, 
             the chronic poison that surges through me 
-            just found out meeting you was the medicine!!
-        </div>
+            just found out meeting you was the medicine!!</div>
     </div>
 
-    <div id="tap-hint">Tap screen to hear song</div>
+    <button id="unmute-btn" onclick="toggleMute()">Enable Sound</button>
 
-    <audio id="bg-audio" loop>
-        <source src=belong?.mp3 type="audio/mpeg">
+    <audio id="bg-audio" autoplay muted loop playsinline>
+        <source src="belong?.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        function playMusic() {
-            var audio = document.getElementById(belong?.mp3);
-            var hint = document.getElementById("tap-hint");
-            audio.play();
-            if (hint) hint.style.display = "none";
+        const audio = document.getElementById("bg-audio");
+        const btn = document.getElementById("unmute-btn");
+
+        function toggleMute() {
+            if (audio.muted) {
+                audio.muted = false;
+                audio.play();
+                btn.style.display = "none";
+            }
         }
+
+        // Standard autoplay attempt
+        window.addEventListener('load', () => {
+            audio.play().catch(e => console.log("Autoplay blocked"));
+        });
     </script>
 
 </body>
