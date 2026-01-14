@@ -9,8 +9,9 @@
     
     <style>
         body {
-            /* This uses your image exactly as it is */
-            background-image: url('background.png'); 
+            /* Using your uploaded image link directly */
+            background-image: url('https://i.ibb.co/M5K65Fnv/bpap.png'); 
+            background-color: #fcfcfc; /* Fallback color */
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -20,17 +21,19 @@
             align-items: center;
             padding: 40px 10px;
             margin: 0;
+            min-height: 100vh;
         }
 
-        /* Title using Great Vibes */
+        /* Title using Great Vibes Font */
         h1 {
             color: #4a674a;
             font-family: 'Great Vibes', cursive; 
-            font-size: clamp(3.5rem, 12vw, 5rem); /* Great Vibes runs smaller, so we increased size */
+            font-size: clamp(3.2rem, 11vw, 4.8rem);
             margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             text-align: center;
-            font-weight: 400; /* Great Vibes looks best at normal weight */
+            font-weight: 400;
+            user-select: none; /* Prevents text selection during secret taps */
         }
 
         .grid {
@@ -66,21 +69,16 @@
             display: none; /* Hidden by default */
         }
 
-        /* Locked State Styles */
+        /* Locked State */
         .card.locked {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             cursor: not-allowed;
         }
 
-        .card.locked .lock-status {
-            display: block; /* Show lock icon */
-        }
+        .card.locked .lock-status { display: block; }
+        .card.locked h2, .card.locked p { opacity: 0.3; }
 
-        .card.locked h2, .card.locked p {
-            opacity: 0.3; /* Fade text */
-        }
-
-        /* Interaction Animations */
+        /* Shake Animation */
         .apply-shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -88,6 +86,7 @@
             75% { transform: translateX(6px); }
         }
 
+        /* Pulse Animation for the current card */
         .pulse {
             border: 2px solid #7a917a;
             animation: pulse-ring 2s infinite;
@@ -101,7 +100,7 @@
 </head>
 <body>
 
-    <h1>Happy Birthday Dharshini!</h1>
+    <h1 id="secret-trigger">Happy Birthday Dharshini!</h1>
 
     <div class="grid">
         <div class="card card-1" onclick="handleStep('card-1', 'song.html')">
@@ -109,25 +108,21 @@
             <h2>Song</h2>
             <p>rythm of romance</p>
         </div>
-
         <div class="card card-2" onclick="handleStep('card-2', 'game.html')">
             <span class="lock-status">🔒</span>
             <h2>Game</h2>
             <p>winnn plss</p>
         </div>
-
         <div class="card card-3" onclick="handleStep('card-3', 'gallery.html')">
             <span class="lock-status">🔒</span>
             <h2>Gallery</h2>
             <p>dare to glare</p>
         </div>
-
         <div class="card card-4" onclick="handleStep('card-4', 'memories.html')">
             <span class="lock-status">🔒</span>
             <h2>Memories</h2>
             <p>look back</p>
         </div>
-
         <div class="card card-5 card-large" onclick="handleStep('card-5', 'gift.html')">
             <span class="lock-status">🔒</span>
             <h2>18 Pages: Your Gift</h2>
@@ -142,7 +137,7 @@
             sequence.forEach((className, index) => {
                 const card = document.querySelector(`.${className}`);
                 if (!card) return;
-
+                
                 if (index === 0) {
                     card.classList.remove('locked');
                 } else {
@@ -155,36 +150,46 @@
                 }
             });
 
-            // Pulse the next card to be clicked
+            // Update Pulse
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
             const unlocked = document.querySelectorAll('.card:not(.locked)');
             if (unlocked.length > 0) {
-                const lastUnlocked = unlocked[unlocked.length - 1];
-                const cardId = sequence.find(cls => lastUnlocked.classList.contains(cls));
-                if (localStorage.getItem(cardId) !== 'done') {
-                    lastUnlocked.classList.add('pulse');
-                }
+                const last = unlocked[unlocked.length - 1];
+                const id = sequence.find(cls => last.classList.contains(cls));
+                if (localStorage.getItem(id) !== 'done') last.classList.add('pulse');
             }
         }
 
         function handleStep(cardClass, url) {
             const el = document.querySelector(`.${cardClass}`);
-            
             if (el.classList.contains('locked')) {
                 el.classList.add('apply-shake');
                 setTimeout(() => el.classList.remove('apply-shake'), 400);
                 return;
             }
-
+            
             localStorage.setItem(cardClass, 'done');
             refreshLocks();
-
-            setTimeout(() => {
-                window.location.href = url;
-            }, 150);
+            
+            // Navigate after a tiny delay
+            setTimeout(() => { window.location.href = url; }, 150);
         }
 
-        // Essential refresh listeners
+        // Secret Reset Handler
+        let tapCount = 0;
+        document.getElementById('secret-trigger').onclick = function() {
+            tapCount++;
+            if (tapCount === 5) {
+                localStorage.clear();
+                alert("All progress has been reset!");
+                tapCount = 0;
+                refreshLocks();
+            }
+            // Reset tap count if no click for 3 seconds
+            setTimeout(() => { tapCount = 0; }, 3000);
+        };
+
+        // Reliability listeners
         window.addEventListener('pageshow', refreshLocks);
         window.onload = refreshLocks;
         document.addEventListener('visibilitychange', () => {
