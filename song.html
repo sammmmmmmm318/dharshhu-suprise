@@ -24,13 +24,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Changed from space-between to center to pull the lyrics away from the bottom */
             justify-content: center; 
             box-sizing: border-box;
         }
 
         .header {
-            /* Reduced margin-bottom slightly to balance the vertical center */
             margin-bottom: 2vh; 
             flex-shrink: 0;
         }
@@ -52,34 +50,22 @@
             margin: 0.5vh 0;
         }
         .lyrics-container {
-            width: 85vw; /* Width matches the proportion in your images */
+            width: 85vw; 
             max-width: 400px;
-            /* This creates the semi-transparent "glass" effect seen in the screenshots */
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            
-            /* Rounded corners as seen in the images */
             border-radius: 30px; 
-            
-            /* Spacing inside the box */
-            padding: 4vh 1vw;
+            padding: 2vh 1vw;
             box-sizing: border-box;
-            
-            /* Shadow for depth */
             box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            
-            /* Centers the content within the box */
             display: flex;
             flex-direction: column;
             justify-content: center;
-            
-            /* Adjusts position on the screen to avoid the bottom edge */
-            margin-bottom: 6vh; 
+            margin-bottom: 5vh; 
         }
 
         .lyrics-text {
-            /* Font size adjusted to fit the vertical space of a 6.2" screen */
             font-size: 1.6vh; 
             line-height: 1.6;
             white-space: pre-line;
@@ -88,7 +74,6 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Adjusts the space between the verses to be tighter (approx 10px) */
         .lyrics-text p, .verse-spacer {
             margin: 1.2vh 0; 
             display: block;
