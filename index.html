@@ -2,170 +2,131 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday Dharshini</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequential Card Unlock</title>
     <style>
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 50px; background: #f4f4f9; }
+        .container { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        body {
-            background-image: url('bpap.png');
-            background-size: cover;
-            background-position: center;
+        /* Card Base Styles */
+        .card {
+            width: 120px;
+            height: 160px;
+            background: white;
+            border-radius: 12px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-family: 'Poppins', sans-serif;
-            padding: 15px;
-        }
-
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.8rem;
-            color: #456a47;
-            text-align: center;
-            margin: 0 0 20px 0;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.6);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 360px;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .card {
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 15px 10px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
             position: relative;
-            height: 110px;
-            transition: transform 0.2s ease;
+            border: 2px solid transparent;
         }
 
-        .card-wide {
-            grid-column: 1 / -1;
-            height: 120px;
-            border: 2.5px solid #6b8e61;
-            margin-top: 5px;
-        }
-
-        .card h2 {
-            color: #4a6343;
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .card p {
-            color: #777;
-            margin: 4px 0 0;
-            font-size: 0.75rem;
-        }
-
+        /* Locked State */
         .card.locked {
-            filter: grayscale(1) opacity(0.6);
+            background: #e0e0e0;
+            color: #999;
             cursor: not-allowed;
+            filter: grayscale(1);
         }
-
         .card.locked::after {
             content: '🔒';
             position: absolute;
-            top: 8px;
+            top: 10px;
             right: 10px;
-            font-size: 0.9rem;
+            font-size: 14px;
         }
 
+        /* Pulse Animation for the next available card */
         .pulse {
-            animation: softPulse 2s infinite;
-            border: 1.5px solid #6b8e61;
+            border-color: #4CAF50;
+            animation: pulse-animation 2s infinite;
         }
 
-        @keyframes softPulse {
-            0% { box-shadow: 0 0 0 0 rgba(107, 142, 97, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(107, 142, 97, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(107, 142, 97, 0); }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(76, 175, 80, 0.4); }
+            100% { box-shadow: 0 0 0 15px rgba(76, 175, 80, 0); }
+        }
+
+        /* Shake Animation for locked cards */
+        .apply-shake {
+            animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            75% { transform: translateX(6px); }
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
-        .apply-shake {
-            animation: shake 0.3s ease-in-out;
-            border-color: #ff4d4d !important;
-        }
-
-        .card:active:not(.locked) {
-            transform: scale(0.95);
+        button.reset {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Happy Birthday Dharshini!</h1>
+
+    <h1>Course Modules</h1>
+    <p>Click a card to complete it and unlock the next one.</p>
+
     <div class="container">
-        <div class="card-grid">
-            <a href="song.html" class="card card-1">
-                <div class="card-content"><h2>Song</h2><p>rythm of romance</p></div>
-            </a>
-            <a href="game.html" class="card card-2 locked">
-                <div class="card-content"><h2>Game</h2><p>winnn plss</p></div>
-            </a>
-            <a href="gallery.html" class="card card-3 locked">
-                <div class="card-content"><h2>Gallery</h2><p>dare to glare</p></div>
-            </a>
-            <a href="memories.html" class="card card-4 locked">
-                <div class="card-content"><h2>Memories</h2><p>look back</p></div>
-            </a>
-            <a href="gift.html" class="card card-5 card-wide locked">
-                <div class="card-content"><h2>18 Pages: Your Gift</h2><p>The grand finale awaits!</p></div>
-            </a>
-        </div>
+        <div class="card card-1">Module 1</div>
+        <div class="card card-2">Module 2</div>
+        <div class="card card-3">Module 3</div>
+        <div class="card card-4">Module 4</div>
+        <div class="card card-5">Module 5</div>
     </div>
+
+    <button class="reset" onclick="resetProgress()">Reset All Progress</button>
 
     <script>
         const sequence = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'];
 
         function refreshLocks() {
+            console.log("Checking progress...");
+            
             sequence.forEach((className, index) => {
                 const currentCard = document.querySelector(`.${className}`);
-                if (index === 0) return;
-                const previousCardName = sequence[index - 1];
-                if (localStorage.getItem(previousCardName) === 'done') {
+                if (!currentCard) return;
+
+                // Rule: Card 1 (index 0) is always unlocked
+                if (index === 0) {
                     currentCard.classList.remove('locked');
+                } else {
+                    const previousCardName = sequence[index - 1];
+                    // Rule: Unlock if the previous card in the sequence is marked 'done'
+                    if (localStorage.getItem(previousCardName) === 'done') {
+                        currentCard.classList.remove('locked');
+                    } else {
+                        currentCard.classList.add('locked');
+                    }
                 }
             });
+
+            // Pulse Logic: Find the last unlocked card to guide the user
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
             const unlockedCards = document.querySelectorAll('.card:not(.locked)');
-            if (unlockedCards.length > 0) unlockedCards[unlockedCards.length - 1].classList.add('pulse');
+            if (unlockedCards.length > 0) {
+                const lastUnlocked = unlockedCards[unlockedCards.length - 1];
+                // Only pulse if it hasn't been completed yet
+                const myClass = sequence.find(cls => lastUnlocked.classList.contains(cls));
+                if (localStorage.getItem(myClass) !== 'done') {
+                    lastUnlocked.classList.add('pulse');
+                }
+            }
         }
 
+        // Click Handler
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('click', function(e) {
                 if (this.classList.contains('locked')) {
@@ -173,15 +134,26 @@
                     this.classList.add('apply-shake');
                     setTimeout(() => this.classList.remove('apply-shake'), 300);
                 } else {
+                    // Identify which card was clicked and save to localStorage
                     const myClass = sequence.find(cls => this.classList.contains(cls));
                     localStorage.setItem(myClass, 'done');
+                    
+                    // Visual feedback: briefly highlight click then refresh
+                    this.style.background = "#e8f5e9";
+                    refreshLocks(); 
                 }
             });
         });
-        window.onload = refreshLocks;
-        
-            
 
+        // Helper to clear progress for testing
+        function resetProgress() {
+            sequence.forEach(cls => localStorage.removeItem(cls));
+            refreshLocks();
+        }
+
+        // Initialize on load and when returning to page
+        window.addEventListener('DOMContentLoaded', refreshLocks);
+        window.addEventListener('pageshow', refreshLocks);
     </script>
 </body>
 </html>
