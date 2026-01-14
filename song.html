@@ -5,154 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Belong? - Lyrics</title>
     <style>
-        /* Fit-to-Screen Mobile UI */
+        /* Full Screen Setup */
         html, body {
             height: 100%;
             margin: 0;
-            overflow: hidden; /* Disables scrolling */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         body {
             background-image: url('songbg.jpeg');
             background-size: cover;
             background-position: center;
-            color: #2d3436;
             font-family: 'Georgia', serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Spreads header, lyrics, and player */
             align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
+            cursor: pointer; /* Shows user they can click anywhere */
+        }
+
+        /* Instructions Overlay - fades out once music starts */
+        #tap-hint {
+            position: fixed;
+            top: 10px;
+            color: white;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(0,0,0,0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            z-index: 100;
         }
 
         .header {
             text-align: center;
+            padding: 30px 0 10px 0;
             flex-shrink: 0;
         }
 
         h1 { 
-            font-size: clamp(1.5rem, 8vh, 2.5rem); /* Fluid size based on height */
+            font-size: 2.8rem; 
             margin: 0; 
             color: #ffffff;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
             font-style: italic;
         }
 
         h2 { 
-            font-size: 0.7rem; 
+            font-size: 0.8rem; 
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: #ffffff;
             opacity: 0.9;
-            margin-top: 5px;
         }
 
-        .lyrics-container {
-            width: 95%;
-            max-width: 500px;
-            text-align: center;
-            /* Flex-grow allows this to take up available middle space */
+        .lyrics-scroll-area {
+            width: 85%;
+            max-width: 600px;
             flex-grow: 1; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            line-height: 1.4;
-            /* Fluid font size that adjusts to screen height */
-            font-size: clamp(0.85rem, 2.2vh, 1.1rem); 
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 15px;
-            border-radius: 20px;
-            margin: 15px 0;
-            color: #1e272e;
+            overflow-y: auto; 
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 40px 20px;
+            margin: 20px 0 40px 0; 
             box-sizing: border-box;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            scrollbar-width: none; 
+        }
+
+        .lyrics-scroll-area::-webkit-scrollbar { display: none; }
+
+        .lyrics-text {
+            text-align: center;
+            line-height: 2.5;
+            font-size: 1.4rem; 
+            white-space: pre-line;
+            color: #ffffff; /* Switched to white for better contrast on blurred BG */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         .verse-spacer {
             display: block;
-            margin: 8px 0;
+            margin: 40px 0;
             color: #ffffff;
-            font-size: 1rem;
-            opacity: 0.6;
+            font-size: 1.5rem;
+            opacity: 0.8;
         }
 
-        .player-bar {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            padding: 10px;
-            border-radius: 40px;
-            display: flex;
-            justify-content: center;
-            box-sizing: border-box;
-            flex-shrink: 0; /* Prevents player from being squished */
-        }
-
-        audio {
-            width: 100%;
-            height: 35px;
-        }
-
-        /* Short screen adjustment (e.g., phone in landscape) */
-        @media (max-height: 500px) {
-            .verse-spacer { margin: 2px 0; }
-            h1 { font-size: 1.2rem; }
-            .lyrics-container { line-height: 1.2; padding: 10px; }
-        }
+        /* The player is technically there, but hidden from view */
+        #bg-audio { display: none; }
     </style>
 </head>
-<body>
+<body onclick="playMusic()">
+
+    <div id="tap-hint">Tap anywhere to play</div>
 
     <div class="header">
         <h1>belong?</h1>
         <h2>A song for her</h2>
     </div>
 
-    <div class="lyrics-container">
-        ahh, the voice of "hi" that wakes me up; 
-        the "love you" that close my eyes. 
-        harmony of romance flushes me all day;
-        and this voice of her belongs to me?
-        
-        <span class="verse-spacer">❦</span>
-        
-        her blow of breath shivers me apart, 
-        look of hers mutes my world. 
-        collision of lips i never wanna avert; 
-        the kiss that feels like eternity
-        
-        <span class="verse-spacer">❦</span>
-        
-        her eyes, the stars i glaze at 
-        with the distance i wanna displace to millimeters. 
-        the way she wraps me between her hands, 
-        she overwhelms me within my own heart
+    <div class="lyrics-scroll-area">
+        <div class="lyrics-text">
+            ahh, the voice of "hi" that wakes me up; 
+            the "love you" that close my eyes. 
+            harmony of romance flushes me all day;
+            and this voice of her belongs to me?
+            
+            <span class="verse-spacer">❦</span>
+            
+            her blow of breath shivers me apart, 
+            look of hers mutes my world. 
+            collision of lips i never wanna avert; 
+            the kiss that feels like eternity
+            
+            <span class="verse-spacer">❦</span>
+            
+            her eyes, the stars i glaze at 
+            with the distance i wanna displace to millimeters. 
+            the way she wraps me between her hands, 
+            she overwhelms me within my own heart
 
-        <span class="verse-spacer">❦</span>
-        
-        the mermaid's hair I wanna hide in 
-        with the waist I will willingly lose my dexterity too.
-        times when even virtual screen hit me blushing;
-        the time I belonged to her
+            <span class="verse-spacer">❦</span>
+            
+            the mermaid's hair I wanna hide in 
+            with the waist I will willingly lose my dexterity too.
+            times when even virtual screen hit me blushing;
+            the time I belonged to her
 
-        <span class="verse-spacer">❦</span>
-        
-        ohh the greenery of my wardrobe; 
-        the urge to hold her closer ughhh, 
-        the chronic poison that surges through me 
-        just found out meeting you was the medicine!!
+            <span class="verse-spacer">❦</span>
+            
+            ohh the greenery of my wardrobe; 
+            the urge to hold her closer ughhh, 
+            the chronic poison that surges through me 
+            just found out meeting you was the medicine!!
+        </div>
     </div>
 
-    <div class="player-bar">
-        <audio controls>
-            <source src="belong?.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
+    <audio id="bg-audio" loop>
+        <source src="belong?.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function playMusic() {
+            var audio = document.getElementById("bg-audio");
+            var hint = document.getElementById("tap-hint");
+            
+            audio.play();
+            hint.style.display = "none"; // Hides the "Tap to play" hint once music starts
+        }
+    </script>
 
 </body>
 </html>
