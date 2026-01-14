@@ -3,98 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Dharshini!</title>
+    <title>Birthday Surprise</title>
     <style>
-        /* Background & Layout */
+        /* Gingham Background matching your image */
         body {
             background-color: #f0f0f0;
             background-image: 
                 linear-gradient(90deg, rgba(85, 115, 85, 0.4) 50%, transparent 50%),
                 linear-gradient(rgba(85, 115, 85, 0.4) 50%, transparent 50%);
-            background-size: 60px 60px; /* Gingham Pattern */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-size: 60px 60px;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         h1 {
             color: #3e5c3e;
             font-family: 'Georgia', serif;
             font-style: italic;
-            font-size: 3rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            margin-bottom: 40px;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, 200px);
+            grid-template-columns: repeat(2, 180px);
             gap: 20px;
             justify-content: center;
         }
 
-        /* Card Styling */
         .card {
             background: white;
             border-radius: 25px;
-            padding: 30px 10px;
+            padding: 25px 15px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            text-decoration: none;
-            color: #333;
             border: 2px solid transparent;
         }
 
-        .card-large {
-            grid-column: span 2;
-            margin-top: 10px;
-        }
+        .card-large { grid-column: span 2; padding: 35px 15px; }
+        .card h2 { margin: 0; font-size: 1.1rem; color: #4a674a; }
+        .card p { margin: 5px 0 0; font-size: 0.85rem; color: #888; }
 
-        .card h2 { margin: 0; font-size: 1.2rem; color: #4a674a; }
-        .card p { margin: 5px 0 0; font-size: 0.9rem; color: #888; }
-
-        /* --- THE LOCK STYLES --- */
+        /* --- LOCK STYLES --- */
         .card.locked {
-            background: rgba(255, 255, 255, 0.7);
-            filter: grayscale(1) blur(1px);
+            background: rgba(255, 255, 255, 0.6);
+            filter: grayscale(1) opacity(0.7);
             cursor: not-allowed;
-            opacity: 0.8;
+            pointer-events: auto; /* Allow click for the shake effect */
         }
 
-        .card.locked::before {
+        /* The Lock Icon */
+        .card.locked::after {
             content: '🔒';
             position: absolute;
-            top: 10px;
+            top: 12px;
             right: 15px;
-            font-size: 1.2rem;
-            filter: none;
+            font-size: 1rem;
         }
 
-        /* Shake animation when clicking locked items */
-        .apply-shake { animation: shake 0.4s; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        /* Pulse for the "Next Up" card */
+        /* Visual cue for the current card to click */
         .pulse {
             border-color: #557355;
-            box-shadow: 0 0 0 0 rgba(85, 115, 85, 0.7);
-            animation: pulse-green 2s infinite;
+            animation: pulse-ring 2s infinite;
         }
-        @keyframes pulse-green {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); box-shadow: 0 0 15px rgba(85, 115, 85, 0.4); }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(85, 115, 85, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(85, 115, 85, 0); }
             100% { transform: scale(1); }
+        }
+
+        .apply-shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .reset-btn {
+            margin-top: 50px;
+            background: transparent;
+            border: 1px solid #4a674a;
+            color: #4a674a;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -103,81 +105,104 @@
     <h1>Happy Birthday Dharshini!</h1>
 
     <div class="grid">
-        <div class="card card-1">
+        <div class="card card-1" onclick="navigateTo('song.html', 'card-1')">
             <h2>Song</h2>
             <p>rythm of romance</p>
         </div>
-        <div class="card card-2">
+        <div class="card card-2" onclick="navigateTo('game.html', 'card-2')">
             <h2>Game</h2>
             <p>winnn plss</p>
         </div>
-        <div class="card card-3">
+        <div class="card card-3" onclick="navigateTo('gallery.html', 'card-3')">
             <h2>Gallery</h2>
             <p>dare to glare</p>
         </div>
-        <div class="card card-4">
+        <div class="card card-4" onclick="navigateTo('memories.html', 'card-4')">
             <h2>Memories</h2>
             <p>look back</p>
         </div>
-        <div class="card card-5 card-large">
+        <div class="card card-5 card-large" onclick="navigateTo('gift.html', 'card-5')">
             <h2>18 Pages: Your Gift</h2>
             <p>The grand finale awaits!</p>
         </div>
     </div>
 
+    <button class="reset-btn" onclick="resetAll()">Reset Progress (Admin Only)</button>
+
     <script>
         const sequence = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'];
 
         function refreshLocks() {
+            console.log("Refreshing UI State...");
             sequence.forEach((className, index) => {
-                const currentCard = document.querySelector(`.${className}`);
-                if (!currentCard) return;
+                const el = document.querySelector(`.${className}`);
+                if (!el) return;
 
                 if (index === 0) {
-                    currentCard.classList.remove('locked');
+                    el.classList.remove('locked');
                 } else {
-                    const previousCardName = sequence[index - 1];
-                    // Check if previous card was clicked
-                    if (localStorage.getItem(previousCardName) === 'done') {
-                        currentCard.classList.remove('locked');
+                    const prev = sequence[index - 1];
+                    // If previous module is 'done', unlock this one
+                    if (localStorage.getItem(prev) === 'done') {
+                        el.classList.remove('locked');
                     } else {
-                        currentCard.classList.add('locked');
+                        el.classList.add('locked');
                     }
                 }
             });
 
-            // Pulse the next available card
+            // Handle the Pulse effect on the "current" target
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
-            const unlockedCards = document.querySelectorAll('.card:not(.locked)');
-            if (unlockedCards.length > 0) {
-                const lastIdx = unlockedCards.length - 1;
-                const lastCard = unlockedCards[lastIdx];
-                // Only pulse if not already finished
-                const cardClass = sequence.find(cls => lastCard.classList.contains(cls));
-                if (localStorage.getItem(cardClass) !== 'done') {
-                    lastCard.classList.add('pulse');
+            const unlocked = document.querySelectorAll('.card:not(.locked)');
+            if (unlocked.length > 0) {
+                const target = unlocked[unlocked.length - 1];
+                const targetClass = sequence.find(cls => target.classList.contains(cls));
+                // Only pulse if not already completed
+                if (localStorage.getItem(targetClass) !== 'done') {
+                    target.classList.add('pulse');
                 }
             }
         }
 
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function() {
-                if (this.classList.contains('locked')) {
-                    this.classList.add('apply-shake');
-                    setTimeout(() => this.classList.remove('apply-shake'), 400);
-                } else {
-                    const myClass = sequence.find(cls => this.classList.contains(cls));
-                    localStorage.setItem(myClass, 'done');
-                    refreshLocks();
-                    
-                    // Logic for navigation:
-                    // window.location.href = "song_page.html"; // You can add actual links here
-                }
-            });
+        function navigateTo(url, currentClass) {
+            const el = document.querySelector(`.${currentClass}`);
+            
+            if (el.classList.contains('locked')) {
+                el.classList.add('apply-shake');
+                setTimeout(() => el.classList.remove('apply-shake'), 400);
+                return;
+            }
+
+            // Mark current card as done
+            localStorage.setItem(currentClass, 'done');
+            
+            // Short delay to allow state save before navigation
+            setTimeout(() => {
+                window.location.href = url;
+            }, 100);
+        }
+
+        function resetAll() {
+            sequence.forEach(item => localStorage.removeItem(item));
+            refreshLocks();
+            alert("Progress Reset!");
+        }
+
+        // --- THE FIXES FOR RE-OPENING ---
+        // 1. Initial Load
+        window.addEventListener('DOMContentLoaded', refreshLocks);
+        
+        // 2. Browser Back/Forward buttons and Page Show
+        window.addEventListener('pageshow', (event) => {
+            refreshLocks();
         });
 
-        window.addEventListener('pageshow', refreshLocks);
-        window.onload = refreshLocks;
+        // 3. Tab switching (re-focusing on the window)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                refreshLocks();
+            }
+        });
     </script>
 </body>
 </html>
