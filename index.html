@@ -2,95 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Birthday Dharshini!</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary-green: #4a674a;
+            --accent-green: #7a917a;
+            --card-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background-image: url('https://i.ibb.co/M5K65Fnv/bpap.png'); 
             background-color: #fcfcfc;
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center;     /* Centers vertically */
+            min-height: 100vh;
+        }
+
+        /* Content Wrapper to prevent desktop stretching */
+        .container {
+            width: 100%;
+            max-width: 450px; /* Limits width on desktop */
+            padding: 40px 20px;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* ADJUST TOP AND BOTTOM SPACING HERE */
-            padding-top: 80px; 
-            padding-bottom: 80px;
-            margin: 0;
-            min-height: 100vh;
-            box-sizing: border-box;
         }
 
         h1 {
-            color: #4a674a;
+            color: var(--primary-green);
             font-family: 'Great Vibes', cursive; 
-            font-size: clamp(3rem, 10vw, 4.5rem);
-            margin-bottom: 50px; /* Space between title and blocks */
+            font-size: clamp(3rem, 12vw, 4.5rem);
+            margin: 0 0 40px 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             text-align: center;
             font-weight: 400;
+            line-height: 1.2;
             user-select: none;
         }
 
         .grid {
             display: grid;
-            /* Changed to fractional units for better mobile fit */
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 15px;
-            justify-content: center;
-            width: 90%;
-            max-width: 400px; /* Keeps the grid from getting too wide on desktop */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            width: 100%;
         }
 
         .card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px 12px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
             cursor: pointer;
             position: relative;
-            transition: all 0.3s ease;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
             border: 2px solid transparent;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 100px;
+            -webkit-tap-highlight-color: transparent; /* Removes blue flash on mobile */
         }
 
-        /* FIXED: 18 Pages Box Mobile Spacing */
+        .card:active {
+            transform: scale(0.96);
+        }
+
         .card-large { 
             grid-column: span 2; 
-            padding: 30px 20px;
-            width: auto; /* Ensures it doesn't overflow */
+            padding: 32px 20px;
+            margin-top: 8px;
         }
 
-        .card h2 { margin: 0; font-size: 1.1rem; color: #4a674a; }
-        .card p { margin: 5px 0 0; font-size: 0.85rem; color: #888; }
+        .card h2 { 
+            margin: 0; 
+            font-size: 1.15rem; 
+            color: var(--primary-green); 
+            letter-spacing: -0.02em;
+        }
 
-        /* Lock Icon */
+        .card p { 
+            margin: 6px 0 0; 
+            font-size: 0.85rem; 
+            color: #666; 
+            font-weight: 400;
+        }
+
+        /* Lock Icon Styling */
         .lock-status {
             position: absolute;
-            top: 12px;
-            right: 15px;
-            font-size: 1rem;
+            top: 14px;
+            right: 16px;
+            font-size: 1.1rem;
             display: none;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
         }
 
+        /* Locked State */
         .card.locked {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             cursor: not-allowed;
+            box-shadow: none;
         }
 
         .card.locked .lock-status { display: block; }
-        .card.locked h2, .card.locked p { opacity: 0.3; }
+        .card.locked h2, .card.locked p { opacity: 0.25; }
 
-        /* Shake & Pulse */
+        /* Animations */
         .apply-shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -99,52 +133,55 @@
         }
 
         .pulse {
-            border: 2px solid #7a917a;
+            border-color: var(--accent-green);
             animation: pulse-ring 2s infinite;
         }
         @keyframes pulse-ring {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(122, 145, 122, 0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(122, 145, 122, 0); }
-            100% { transform: scale(1); }
+            0% { box-shadow: 0 0 0 0 rgba(122, 145, 122, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(122, 145, 122, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(122, 145, 122, 0); }
         }
 
-        /* Mobile specific tweak */
-        @media (max-width: 400px) {
-            .grid { gap: 10px; }
-            h1 { margin-bottom: 30px; }
-            body { padding-top: 50px; }
+        /* Desktop specific hover */
+        @media (min-width: 768px) {
+            .card:not(.locked):hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1 id="secret-trigger">Happy Birthday Dharshini!</h1>
+    <div class="container">
+        <h1 id="secret-trigger">Happy Birthday Dharshini!</h1>
 
-    <div class="grid">
-        <div class="card card-1" onclick="handleStep('card-1', 'song.html')">
-            <span class="lock-status">🔒</span>
-            <h2>Song</h2>
-            <p>rythm of romance</p>
-        </div>
-        <div class="card card-2" onclick="handleStep('card-2', 'game.html')">
-            <span class="lock-status">🔒</span>
-            <h2>Game</h2>
-            <p>winnn plss</p>
-        </div>
-        <div class="card card-3" onclick="handleStep('card-3', 'gallery.html')">
-            <span class="lock-status">🔒</span>
-            <h2>Gallery</h2>
-            <p>dare to glare</p>
-        </div>
-        <div class="card card-4" onclick="handleStep('card-4', 'memories.html')">
-            <span class="lock-status">🔒</span>
-            <h2>Memories</h2>
-            <p>look back</p>
-        </div>
-        <div class="card card-5 card-large" onclick="handleStep('card-5', 'gift.html')">
-            <span class="lock-status">🔒</span>
-            <h2>18 Pages: Your Gift</h2>
-            <p>The grand finale awaits!</p>
+        <div class="grid">
+            <div class="card card-1" onclick="handleStep('card-1', 'song.html')">
+                <span class="lock-status">🔒</span>
+                <h2>Song</h2>
+                <p>rythm of romance</p>
+            </div>
+            <div class="card card-2" onclick="handleStep('card-2', 'game.html')">
+                <span class="lock-status">🔒</span>
+                <h2>Game</h2>
+                <p>winnn plss</p>
+            </div>
+            <div class="card card-3" onclick="handleStep('card-3', 'gallery.html')">
+                <span class="lock-status">🔒</span>
+                <h2>Gallery</h2>
+                <p>dare to glare</p>
+            </div>
+            <div class="card card-4" onclick="handleStep('card-4', 'memories.html')">
+                <span class="lock-status">🔒</span>
+                <h2>Memories</h2>
+                <p>look back</p>
+            </div>
+            <div class="card card-5 card-large" onclick="handleStep('card-5', 'gift.html')">
+                <span class="lock-status">🔒</span>
+                <h2>18 Pages: Your Gift</h2>
+                <p>The grand finale awaits!</p>
+            </div>
         </div>
     </div>
 
