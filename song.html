@@ -28,6 +28,29 @@
             box-sizing: border-box;
             padding: 2vh 0; /* Vertical padding based on height */
         }
+        body {
+    /* Change 'cover' to a centered fixed position */
+            background-image: url('songbg.jpeg');
+            background-size: cover; 
+            background-position: center center;
+            background-repeat: no-repeat;
+            
+            /* This ensures the background color behind the image matches your photo */
+            /* Use a dark color or a dominant color from your 'songbg' */
+            background-color: #2d3436; 
+        
+            /* Fix the body height to prevent any gaps */
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
 
         .header {
             margin-bottom: 1vh;
