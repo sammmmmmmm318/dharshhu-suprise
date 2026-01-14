@@ -5,62 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Belong?</title>
     <style>
-        /* Lock the viewport to prevent all scrolling */
         html, body {
             height: 100%;
             width: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden; 
-            touch-action: none; /* Prevents accidental swipe-to-scroll */
+            touch-action: none;
         }
 
         body {
             background-image: url('songbg.jpeg');
-            background-colour:#7C866C;
-            background-size: cover;
-            background-position: center;
+            background-color: #2e362d; 
+            background-size: cover; 
+            background-position: center center;
+            background-repeat: no-repeat;
             font-family: 'Georgia', serif;
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Changed from space-between to center to pull the lyrics away from the bottom */
             justify-content: center; 
-            text-align: center;
             box-sizing: border-box;
-            padding: 2vh 0; /* Vertical padding based on height */
-        }
-        body {
-    /* Change 'cover' to a centered fixed position */
-            background-image: url('songbg.jpeg');
-            background-size: cover; 
-            background-position: center center;
-            background-repeat: no-repeat;
-            
-            /* This ensures the background color behind the image matches your photo */
-            /* Use a dark color or a dominant color from your 'songbg' */
-            background-color: #2d3436; 
-        
-            /* Fix the body height to prevent any gaps */
-            height: 100vh;
-            width: 100vw;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; 
-            
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
         }
 
         .header {
-            margin-top: 30px
-            margin-bottom: 1vh;
+            /* Reduced margin-bottom slightly to balance the vertical center */
+            margin-bottom: 2vh; 
             flex-shrink: 0;
         }
 
         h1 { 
-            font-size: 3.5vh; /* Scaled to screen height */
+            font-size: 3.5vh; 
             margin: 0; 
             color: #ffffff;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
@@ -77,53 +53,35 @@
         }
 
         .lyrics-container {
-            width: 90vw; /* 90% of screen width */
+            width: 90vw;
             max-width: 380px;
-            background: rgba(255, 255, 255, 0.12); 
+            /* Lowering opacity slightly more to ensure the background photo shows through clearly */
+            background: rgba(255, 255, 255, 0.08); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 15px;
-            padding: 2vh 3vw;
+            padding: 3vh 4vw;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             justify-content: center;
+            /* This margin-bottom creates the "breathing room" at the bottom of the screen */
+            margin-bottom: 5vh; 
         }
 
         .lyrics-text {
-            /* Font size is carefully calculated to fit all lines on a 6.2" screen */
-            font-size: 1.7vh; 
-            line-height: 1.4;
+            font-size: 1.65vh; 
+            line-height: 1.5;
             white-space: pre-line;
             color: #ffffff;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        .verse-spacer {
-            display: block;
-            margin: 10px 0; /* Your requested 10px spacing */
-            color: #ffffff;
-            font-size: 1.5vh;
-            opacity: 0.6;
+        /* Using simple paragraph spacing within the lyrics text for a cleaner look */
+        .lyrics-text p {
+            margin: 1.5vh 0;
         }
-
-        #unmute-btn {
-            margin-top: 2vh;
-            padding: 1vh 5vw;
-            border-radius: 20px;
-            border: 1px solid white;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 1.4vh;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            flex-shrink: 0;
-        }
-
-        audio { display: none; }
     </style>
 </head>
 <body>
@@ -139,12 +97,12 @@
             the "love you" that close my eyes. 
             harmony of romance flushes me all day;
             and this voice of her belongs to me?
-            
+
             her blow of breath shivers me apart, 
             look of hers mutes my world. 
             collision of lips i never wanna avert; 
             the kiss that feels like eternity
-            
+
             her eyes, the stars i glaze at 
             with the distance i wanna displace to millimeters. 
             the way she wraps me between her hands, 
@@ -161,30 +119,6 @@
             just found out meeting you was the medicine!!
         </div>
     </div>
-
-    <button id="unmute-btn" onclick="toggleMute()">Enable Sound</button>
-
-    <audio id="bg-audio" autoplay muted loop playsinline>
-        <source src="belong?.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        const audio = document.getElementById("bg-audio");
-        const btn = document.getElementById("unmute-btn");
-
-        function toggleMute() {
-            if (audio.muted) {
-                audio.muted = false;
-                audio.play();
-                btn.style.display = "none";
-            }
-        }
-
-        // Standard autoplay attempt
-        window.addEventListener('load', () => {
-            audio.play().catch(e => console.log("Autoplay blocked"));
-        });
-    </script>
-
+    
 </body>
 </html>
