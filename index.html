@@ -3,100 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Surprise</title>
+    <title>Happy Birthday Dharshini!</title>
     <style>
-        /* Gingham Background matching your image */
+        /* Gingham Background */
         body {
-            background-color: #f0f0f0;
+            background-color: #fcfcfc;
             background-image: 
-                linear-gradient(90deg, rgba(85, 115, 85, 0.4) 50%, transparent 50%),
-                linear-gradient(rgba(85, 115, 85, 0.4) 50%, transparent 50%);
+                linear-gradient(90deg, rgba(122, 145, 122, 0.3) 50%, transparent 50%),
+                linear-gradient(rgba(122, 145, 122, 0.3) 50%, transparent 50%);
             background-size: 60px 60px;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 40px 10px;
+            margin: 0;
         }
 
+        /* Birthday Title Font */
         h1 {
-            color: #3e5c3e;
-            font-family: 'Georgia', serif;
+            color: #4a674a;
+            font-family: 'Georgia', 'Times New Roman', serif;
             font-style: italic;
-            font-size: clamp(2rem, 8vw, 3.5rem);
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, 180px);
+            grid-template-columns: repeat(2, 170px);
             gap: 20px;
             justify-content: center;
+            max-width: 400px;
         }
 
+        /* Card Styling */
         .card {
             background: white;
-            border-radius: 25px;
-            padding: 25px 15px;
+            border-radius: 20px;
+            padding: 25px 10px;
             text-align: center;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             cursor: pointer;
-            transition: all 0.3s ease;
             position: relative;
+            transition: transform 0.2s;
             border: 2px solid transparent;
         }
 
-        .card-large { grid-column: span 2; padding: 35px 15px; }
-        .card h2 { margin: 0; font-size: 1.1rem; color: #4a674a; }
-        .card p { margin: 5px 0 0; font-size: 0.85rem; color: #888; }
+        .card-large { grid-column: span 2; padding: 35px 10px; }
 
-        /* --- LOCK STYLES --- */
-        .card.locked {
-            background: rgba(255, 255, 255, 0.6);
-            filter: grayscale(1) opacity(0.7);
-            cursor: not-allowed;
-            pointer-events: auto; /* Allow click for the shake effect */
-        }
+        /* Typography */
+        .card h2 { margin: 0; font-size: 1.1rem; color: #2d3e2d; font-weight: 700; }
+        .card p { margin: 5px 0 0; font-size: 0.85rem; color: #777; font-weight: 400; }
 
-        /* The Lock Icon */
-        .card.locked::after {
-            content: '🔒';
+        /* --- THE LOCK VISIBILITY FIX --- */
+        .lock-icon {
             position: absolute;
-            top: 12px;
-            right: 15px;
-            font-size: 1rem;
+            top: 10px;
+            right: 12px;
+            font-size: 1.2rem;
+            display: none; /* Hidden by default */
+            z-index: 10;
         }
 
-        /* Visual cue for the current card to click */
-        .pulse {
-            border-color: #557355;
-            animation: pulse-ring 2s infinite;
+        /* When card has 'locked' class, show the icon and fade the card */
+        .card.locked {
+            background: rgba(255, 255, 255, 0.8) !important;
+            cursor: not-allowed;
         }
 
-        @keyframes pulse-ring {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(85, 115, 85, 0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(85, 115, 85, 0); }
-            100% { transform: scale(1); }
+        .card.locked .lock-icon {
+            display: block; /* Show lock */
         }
 
+        .card.locked h2, .card.locked p {
+            opacity: 0.3; /* Fade text when locked */
+        }
+
+        /* Shake effect */
         .apply-shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            75% { transform: translateX(6px); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        .reset-btn {
-            margin-top: 50px;
-            background: transparent;
-            border: 1px solid #4a674a;
-            color: #4a674a;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            opacity: 0.5;
+        /* Pulse for current target */
+        .pulse {
+            border-color: #7a917a;
+            animation: pulse-effect 2s infinite;
+        }
+        @keyframes pulse-effect {
+            0% { box-shadow: 0 0 0 0 rgba(122, 145, 122, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(122, 145, 122, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(122, 145, 122, 0); }
         }
     </style>
 </head>
@@ -105,67 +107,72 @@
     <h1>Happy Birthday Dharshini!</h1>
 
     <div class="grid">
-        <div class="card card-1" onclick="navigateTo('song.html', 'card-1')">
+        <div class="card card-1" onclick="handleCardClick('card-1', 'song.html')">
+            <span class="lock-icon">🔒</span>
             <h2>Song</h2>
             <p>rythm of romance</p>
         </div>
-        <div class="card card-2" onclick="navigateTo('game.html', 'card-2')">
+
+        <div class="card card-2" onclick="handleCardClick('card-2', 'game.html')">
+            <span class="lock-icon">🔒</span>
             <h2>Game</h2>
             <p>winnn plss</p>
         </div>
-        <div class="card card-3" onclick="navigateTo('gallery.html', 'card-3')">
+
+        <div class="card card-3" onclick="handleCardClick('card-3', 'gallery.html')">
+            <span class="lock-icon">🔒</span>
             <h2>Gallery</h2>
             <p>dare to glare</p>
         </div>
-        <div class="card card-4" onclick="navigateTo('memories.html', 'card-4')">
+
+        <div class="card card-4" onclick="handleCardClick('card-4', 'memories.html')">
+            <span class="lock-icon">🔒</span>
             <h2>Memories</h2>
             <p>look back</p>
         </div>
-        <div class="card card-5 card-large" onclick="navigateTo('gift.html', 'card-5')">
+
+        <div class="card card-5 card-large" onclick="handleCardClick('card-5', 'gift.html')">
+            <span class="lock-icon">🔒</span>
             <h2>18 Pages: Your Gift</h2>
             <p>The grand finale awaits!</p>
         </div>
     </div>
 
-    <button class="reset-btn" onclick="resetAll()">Reset Progress (Admin Only)</button>
-
     <script>
         const sequence = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'];
 
         function refreshLocks() {
-            console.log("Refreshing UI State...");
             sequence.forEach((className, index) => {
-                const el = document.querySelector(`.${className}`);
-                if (!el) return;
+                const card = document.querySelector(`.${className}`);
+                if (!card) return;
 
                 if (index === 0) {
-                    el.classList.remove('locked');
+                    card.classList.remove('locked');
                 } else {
-                    const prev = sequence[index - 1];
-                    // If previous module is 'done', unlock this one
-                    if (localStorage.getItem(prev) === 'done') {
-                        el.classList.remove('locked');
+                    const prevCard = sequence[index - 1];
+                    // If previous card isn't 'done', lock this one
+                    if (localStorage.getItem(prevCard) === 'done') {
+                        card.classList.remove('locked');
                     } else {
-                        el.classList.add('locked');
+                        card.classList.add('locked');
                     }
                 }
             });
 
-            // Handle the Pulse effect on the "current" target
+            // Highlight the card they should click next
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
             const unlocked = document.querySelectorAll('.card:not(.locked)');
             if (unlocked.length > 0) {
                 const target = unlocked[unlocked.length - 1];
-                const targetClass = sequence.find(cls => target.classList.contains(cls));
-                // Only pulse if not already completed
-                if (localStorage.getItem(targetClass) !== 'done') {
+                const targetID = sequence.find(cls => target.classList.contains(cls));
+                if (localStorage.getItem(targetID) !== 'done') {
                     target.classList.add('pulse');
                 }
             }
         }
 
-        function navigateTo(url, currentClass) {
-            const el = document.querySelector(`.${currentClass}`);
+        function handleCardClick(cardClass, url) {
+            const el = document.querySelector(`.${cardClass}`);
             
             if (el.classList.contains('locked')) {
                 el.classList.add('apply-shake');
@@ -173,36 +180,22 @@
                 return;
             }
 
-            // Mark current card as done
-            localStorage.setItem(currentClass, 'done');
-            
-            // Short delay to allow state save before navigation
+            // Save progress
+            localStorage.setItem(cardClass, 'done');
+            refreshLocks();
+
+            // Navigate after a tiny delay
             setTimeout(() => {
                 window.location.href = url;
-            }, 100);
+            }, 150);
         }
 
-        function resetAll() {
-            sequence.forEach(item => localStorage.removeItem(item));
-            refreshLocks();
-            alert("Progress Reset!");
-        }
-
-        // --- THE FIXES FOR RE-OPENING ---
-        // 1. Initial Load
-        window.addEventListener('DOMContentLoaded', refreshLocks);
-        
-        // 2. Browser Back/Forward buttons and Page Show
-        window.addEventListener('pageshow', (event) => {
-            refreshLocks();
-        });
-
-        // 3. Tab switching (re-focusing on the window)
+        // Refresh whenever page becomes visible or is loaded
+        window.addEventListener('pageshow', refreshLocks);
         document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') {
-                refreshLocks();
-            }
+            if (document.visibilityState === 'visible') refreshLocks();
         });
+        window.onload = refreshLocks;
     </script>
 </body>
 </html>
