@@ -51,36 +51,47 @@
             opacity: 0.8;
             margin: 0.5vh 0;
         }
-
         .lyrics-container {
-            width: 90vw;
-            max-width: 380px;
-            /* Lowering opacity slightly more to ensure the background photo shows through clearly */
-            background: rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 15px;
-            padding: 3vh 4vw;
+            width: 85vw; /* Width matches the proportion in your images */
+            max-width: 400px;
+            /* This creates the semi-transparent "glass" effect seen in the screenshots */
+            background: rgba(255, 255, 255, 0.15); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            
+            /* Rounded corners as seen in the images */
+            border-radius: 30px; 
+            
+            /* Spacing inside the box */
+            padding: 4vh 1vw;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            
+            /* Shadow for depth */
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            
+            /* Centers the content within the box */
             display: flex;
             flex-direction: column;
             justify-content: center;
-            /* This margin-bottom creates the "breathing room" at the bottom of the screen */
-            margin-bottom: 5vh; 
+            
+            /* Adjusts position on the screen to avoid the bottom edge */
+            margin-bottom: 6vh; 
         }
 
         .lyrics-text {
-            font-size: 1.65vh; 
-            line-height: 1.5;
+            /* Font size adjusted to fit the vertical space of a 6.2" screen */
+            font-size: 1.6vh; 
+            line-height: 1.6;
             white-space: pre-line;
             color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
-        /* Using simple paragraph spacing within the lyrics text for a cleaner look */
-        .lyrics-text p {
-            margin: 1.5vh 0;
+        /* Adjusts the space between the verses to be tighter (approx 10px) */
+        .lyrics-text p, .verse-spacer {
+            margin: 1.2vh 0; 
+            display: block;
         }
     </style>
 </head>
