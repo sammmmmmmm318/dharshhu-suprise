@@ -5,38 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Belong? - Lyrics</title>
     <style>
-        /* Modern Dreamy Aesthetic CSS */
+        /* Modern Dreamy Aesthetic CSS - Mobile Optimized */
         body {
-            /* A soft, calming green gradient to match your lyrics */
-            background-image: url(songbg.jpeg);
+            background-image: url('songbg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #2d3436;
-            font-family: 'Georgia', serif; /* Serif font feels more like a poem/song */
+            font-family: 'Georgia', serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-bottom: 120px;
+            /* Extra padding at bottom so lyrics aren't hidden by the floating player */
+            padding-bottom: 150px; 
         }
 
         .header {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             width: 100%;
+            box-sizing: border-box;
         }
 
         h1 { 
-            font-size: 3.5rem; 
+            font-size: 2.8rem; /* Slightly smaller for mobile screens */
             margin-bottom: 10px; 
             color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             font-style: italic;
+            word-wrap: break-word;
         }
 
         h2 { 
-            font-size: 1rem; 
+            font-size: 0.9rem; 
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             color: #ffffff;
             opacity: 0.9;
         }
@@ -45,56 +50,65 @@
             max-width: 700px;
             width: 85%;
             text-align: center;
-            line-height: 2.2;
-            font-size: 1.4rem;
+            line-height: 2;
+            font-size: 1.2rem; /* Adjusted for readability on small screens */
             white-space: pre-line;
-            background: rgba(255, 255, 255, 0.25); /* Glass-morphism effect */
-            backdrop-filter: blur(10px);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* Safari support */
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
             color: #1e272e;
+            box-sizing: border-box;
         }
 
-        /* Adds a small decorative heart between sections */
         .verse-spacer {
             display: block;
-            margin: 40px 0;
-            margin-bottom: 10px;
+            margin: 30px 0 10px 0;
             color: #ffffff;
-            font-size: 1.5rem;
-            opacity: 0.6;
+            font-size: 1.2rem;
+            opacity: 0.7;
         }
 
-        /* Fixed Floating Player */
+        /* Fixed Floating Player - Adjusted for Mobile touch */
         .player-bar {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             width: 90%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.8);
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(15px);
-            padding: 15px;
-            border-radius: 50px;
+            -webkit-backdrop-filter: blur(15px);
+            padding: 12px;
+            border-radius: 40px;
             display: flex;
             justify-content: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            z-index: 999;
         }
 
         audio {
             width: 100%;
-            height: 40px;
+            height: 35px;
+        }
+
+        /* Responsive Adjustments for very small phones */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.2rem; }
+            .lyrics-container { font-size: 1.1rem; padding: 25px 15px; }
+            body { padding-bottom: 120px; }
         }
 
         /* Smooth reveal animation */
         .lyrics-container {
-            animation: fadeIn 2s ease-in;
+            animation: fadeIn 1.5s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
