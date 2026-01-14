@@ -9,9 +9,8 @@
     
     <style>
         body {
-            /* Using your uploaded image link directly */
             background-image: url('https://i.ibb.co/M5K65Fnv/bpap.png'); 
-            background-color: #fcfcfc; /* Fallback color */
+            background-color: #fcfcfc;
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -19,57 +18,70 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 10px;
+            /* ADJUST TOP AND BOTTOM SPACING HERE */
+            padding-top: 80px; 
+            padding-bottom: 80px;
             margin: 0;
             min-height: 100vh;
+            box-sizing: border-box;
         }
 
-        /* Title using Great Vibes Font */
         h1 {
             color: #4a674a;
             font-family: 'Great Vibes', cursive; 
-            font-size: clamp(3.2rem, 11vw, 4.8rem);
-            margin-bottom: 40px;
+            font-size: clamp(3rem, 10vw, 4.5rem);
+            margin-bottom: 50px; /* Space between title and blocks */
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             text-align: center;
             font-weight: 400;
-            user-select: none; /* Prevents text selection during secret taps */
+            user-select: none;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, 175px);
-            gap: 20px;
+            /* Changed to fractional units for better mobile fit */
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px;
             justify-content: center;
+            width: 90%;
+            max-width: 400px; /* Keeps the grid from getting too wide on desktop */
         }
 
         .card {
             background: white;
-            border-radius: 25px;
-            padding: 30px 10px;
+            border-radius: 20px;
+            padding: 25px 10px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             position: relative;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100px;
         }
 
-        .card-large { grid-column: span 2; padding: 40px 10px; }
+        /* FIXED: 18 Pages Box Mobile Spacing */
+        .card-large { 
+            grid-column: span 2; 
+            padding: 30px 20px;
+            width: auto; /* Ensures it doesn't overflow */
+        }
 
-        .card h2 { margin: 0; font-size: 1.2rem; color: #4a674a; }
-        .card p { margin: 5px 0 0; font-size: 0.9rem; color: #888; }
+        .card h2 { margin: 0; font-size: 1.1rem; color: #4a674a; }
+        .card p { margin: 5px 0 0; font-size: 0.85rem; color: #888; }
 
-        /* Lock Icon Fix */
+        /* Lock Icon */
         .lock-status {
             position: absolute;
-            top: 15px;
-            right: 18px;
-            font-size: 1.2rem;
-            display: none; /* Hidden by default */
+            top: 12px;
+            right: 15px;
+            font-size: 1rem;
+            display: none;
         }
 
-        /* Locked State */
         .card.locked {
             background: rgba(255, 255, 255, 0.85);
             cursor: not-allowed;
@@ -78,7 +90,7 @@
         .card.locked .lock-status { display: block; }
         .card.locked h2, .card.locked p { opacity: 0.3; }
 
-        /* Shake Animation */
+        /* Shake & Pulse */
         .apply-shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -86,7 +98,6 @@
             75% { transform: translateX(6px); }
         }
 
-        /* Pulse Animation for the current card */
         .pulse {
             border: 2px solid #7a917a;
             animation: pulse-ring 2s infinite;
@@ -95,6 +106,13 @@
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(122, 145, 122, 0.4); }
             70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(122, 145, 122, 0); }
             100% { transform: scale(1); }
+        }
+
+        /* Mobile specific tweak */
+        @media (max-width: 400px) {
+            .grid { gap: 10px; }
+            h1 { margin-bottom: 30px; }
+            body { padding-top: 50px; }
         }
     </style>
 </head>
@@ -150,7 +168,6 @@
                 }
             });
 
-            // Update Pulse
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
             const unlocked = document.querySelectorAll('.card:not(.locked)');
             if (unlocked.length > 0) {
@@ -167,29 +184,23 @@
                 setTimeout(() => el.classList.remove('apply-shake'), 400);
                 return;
             }
-            
             localStorage.setItem(cardClass, 'done');
             refreshLocks();
-            
-            // Navigate after a tiny delay
             setTimeout(() => { window.location.href = url; }, 150);
         }
 
-        // Secret Reset Handler
         let tapCount = 0;
         document.getElementById('secret-trigger').onclick = function() {
             tapCount++;
             if (tapCount === 5) {
                 localStorage.clear();
-                alert("All progress has been reset!");
+                alert("Progress Reset!");
                 tapCount = 0;
                 refreshLocks();
             }
-            // Reset tap count if no click for 3 seconds
             setTimeout(() => { tapCount = 0; }, 3000);
         };
 
-        // Reliability listeners
         window.addEventListener('pageshow', refreshLocks);
         window.onload = refreshLocks;
         document.addEventListener('visibilitychange', () => {
