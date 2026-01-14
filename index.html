@@ -3,108 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sequential Card Unlock</title>
+    <title>Happy Birthday Dharshini!</title>
     <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 50px; background: #f4f4f9; }
-        .container { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-
-        /* Card Base Styles */
-        .card {
-            width: 120px;
-            height: 160px;
-            background: white;
-            border-radius: 12px;
+        /* Background & Layout */
+        body {
+            background-color: #f0f0f0;
+            background-image: 
+                linear-gradient(90deg, rgba(85, 115, 85, 0.4) 50%, transparent 50%),
+                linear-gradient(rgba(85, 115, 85, 0.4) 50%, transparent 50%);
+            background-size: 60px 60px; /* Gingham Pattern */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #3e5c3e;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 200px);
+            gap: 20px;
             justify-content: center;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Card Styling */
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px 10px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
+            transition: all 0.3s ease;
             position: relative;
+            text-decoration: none;
+            color: #333;
             border: 2px solid transparent;
         }
 
-        /* Locked State */
-        .card.locked {
-            background: #e0e0e0;
-            color: #999;
-            cursor: not-allowed;
-            filter: grayscale(1);
+        .card-large {
+            grid-column: span 2;
+            margin-top: 10px;
         }
-        .card.locked::after {
+
+        .card h2 { margin: 0; font-size: 1.2rem; color: #4a674a; }
+        .card p { margin: 5px 0 0; font-size: 0.9rem; color: #888; }
+
+        /* --- THE LOCK STYLES --- */
+        .card.locked {
+            background: rgba(255, 255, 255, 0.7);
+            filter: grayscale(1) blur(1px);
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .card.locked::before {
             content: '🔒';
             position: absolute;
             top: 10px;
-            right: 10px;
-            font-size: 14px;
+            right: 15px;
+            font-size: 1.2rem;
+            filter: none;
         }
 
-        /* Pulse Animation for the next available card */
-        .pulse {
-            border-color: #4CAF50;
-            animation: pulse-animation 2s infinite;
-        }
-
-        @keyframes pulse-animation {
-            0% { box-shadow: 0 0 0 0px rgba(76, 175, 80, 0.4); }
-            100% { box-shadow: 0 0 0 15px rgba(76, 175, 80, 0); }
-        }
-
-        /* Shake Animation for locked cards */
-        .apply-shake {
-            animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
-        }
-
+        /* Shake animation when clicking locked items */
+        .apply-shake { animation: shake 0.4s; }
         @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
-        button.reset {
-            margin-top: 30px;
-            padding: 10px 20px;
-            background: #ff4444;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        /* Pulse for the "Next Up" card */
+        .pulse {
+            border-color: #557355;
+            box-shadow: 0 0 0 0 rgba(85, 115, 85, 0.7);
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); box-shadow: 0 0 15px rgba(85, 115, 85, 0.4); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <h1>Course Modules</h1>
-    <p>Click a card to complete it and unlock the next one.</p>
+    <h1>Happy Birthday Dharshini!</h1>
 
-    <div class="container">
-        <div class="card card-1">Module 1</div>
-        <div class="card card-2">Module 2</div>
-        <div class="card card-3">Module 3</div>
-        <div class="card card-4">Module 4</div>
-        <div class="card card-5">Module 5</div>
+    <div class="grid">
+        <div class="card card-1">
+            <h2>Song</h2>
+            <p>rythm of romance</p>
+        </div>
+        <div class="card card-2">
+            <h2>Game</h2>
+            <p>winnn plss</p>
+        </div>
+        <div class="card card-3">
+            <h2>Gallery</h2>
+            <p>dare to glare</p>
+        </div>
+        <div class="card card-4">
+            <h2>Memories</h2>
+            <p>look back</p>
+        </div>
+        <div class="card card-5 card-large">
+            <h2>18 Pages: Your Gift</h2>
+            <p>The grand finale awaits!</p>
+        </div>
     </div>
-
-    <button class="reset" onclick="resetProgress()">Reset All Progress</button>
 
     <script>
         const sequence = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'];
 
         function refreshLocks() {
-            console.log("Checking progress...");
-            
             sequence.forEach((className, index) => {
                 const currentCard = document.querySelector(`.${className}`);
                 if (!currentCard) return;
 
-                // Rule: Card 1 (index 0) is always unlocked
                 if (index === 0) {
                     currentCard.classList.remove('locked');
                 } else {
                     const previousCardName = sequence[index - 1];
-                    // Rule: Unlock if the previous card in the sequence is marked 'done'
+                    // Check if previous card was clicked
                     if (localStorage.getItem(previousCardName) === 'done') {
                         currentCard.classList.remove('locked');
                     } else {
@@ -113,47 +146,38 @@
                 }
             });
 
-            // Pulse Logic: Find the last unlocked card to guide the user
+            // Pulse the next available card
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
             const unlockedCards = document.querySelectorAll('.card:not(.locked)');
             if (unlockedCards.length > 0) {
-                const lastUnlocked = unlockedCards[unlockedCards.length - 1];
-                // Only pulse if it hasn't been completed yet
-                const myClass = sequence.find(cls => lastUnlocked.classList.contains(cls));
-                if (localStorage.getItem(myClass) !== 'done') {
-                    lastUnlocked.classList.add('pulse');
+                const lastIdx = unlockedCards.length - 1;
+                const lastCard = unlockedCards[lastIdx];
+                // Only pulse if not already finished
+                const cardClass = sequence.find(cls => lastCard.classList.contains(cls));
+                if (localStorage.getItem(cardClass) !== 'done') {
+                    lastCard.classList.add('pulse');
                 }
             }
         }
 
-        // Click Handler
         document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function(e) {
+            card.addEventListener('click', function() {
                 if (this.classList.contains('locked')) {
-                    e.preventDefault();
                     this.classList.add('apply-shake');
-                    setTimeout(() => this.classList.remove('apply-shake'), 300);
+                    setTimeout(() => this.classList.remove('apply-shake'), 400);
                 } else {
-                    // Identify which card was clicked and save to localStorage
                     const myClass = sequence.find(cls => this.classList.contains(cls));
                     localStorage.setItem(myClass, 'done');
+                    refreshLocks();
                     
-                    // Visual feedback: briefly highlight click then refresh
-                    this.style.background = "#e8f5e9";
-                    refreshLocks(); 
+                    // Logic for navigation:
+                    // window.location.href = "song_page.html"; // You can add actual links here
                 }
             });
         });
 
-        // Helper to clear progress for testing
-        function resetProgress() {
-            sequence.forEach(cls => localStorage.removeItem(cls));
-            refreshLocks();
-        }
-
-        // Initialize on load and when returning to page
-        window.addEventListener('DOMContentLoaded', refreshLocks);
         window.addEventListener('pageshow', refreshLocks);
+        window.onload = refreshLocks;
     </script>
 </body>
 </html>
