@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Belong? - Lyrics</title>
     <style>
-        /* Force the page to fit exactly 100% of the screen height */
+        /* Forces the container to be exactly the size of the screen */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Disables all scrolling */
+            overflow: hidden; /* No scrolling allowed */
         }
 
         body {
@@ -20,30 +20,19 @@
             font-family: 'Georgia', serif;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Spreads content from top to bottom */
             align-items: center;
+            justify-content: center; /* Centers everything vertically */
             text-align: center;
-            padding: 5vh 5vw; /* Padding based on screen size */
-            box-sizing: border-box;
             cursor: pointer;
-        }
-
-        #tap-hint {
-            position: fixed;
-            top: 10px;
-            color: white;
-            font-size: 0.6rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            opacity: 0.7;
+            box-sizing: border-box;
         }
 
         .header {
-            flex-shrink: 0;
+            margin-bottom: 10px;
         }
 
         h1 { 
-            font-size: clamp(1.2rem, 6vh, 2.2rem); 
+            font-size: clamp(1.5rem, 5vh, 2.2rem); 
             margin: 0; 
             color: #ffffff;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
@@ -56,31 +45,25 @@
             letter-spacing: 2px;
             color: #ffffff;
             opacity: 0.9;
-            margin: 5px 0 0 0;
+            margin: 2px 0;
         }
 
         .lyrics-container {
-            width: 100%;
-            max-width: 450px;
-            /* Flex-grow lets this box take up all available middle space */
-            flex-grow: 1; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Centers the text block vertically */
+            width: 90%;
+            max-width: 400px;
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 20px;
-            padding: 2vh 4vw;
-            margin: 2vh 0;
+            padding: 20px 15px;
             box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .lyrics-text {
-            /* This is the magic part: it scales based on the height (vh) of the screen */
-            font-size: clamp(0.7rem, 1.9vh, 1.1rem); 
-            line-height: 1.6;
+            /* Font size scales based on screen height to ensure no overflow */
+            font-size: clamp(0.7rem, 1.8vh, 1.1rem); 
+            line-height: 1.5;
             white-space: pre-line;
             color: #ffffff;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -88,18 +71,25 @@
 
         .verse-spacer {
             display: block;
-            margin: 1.5vh 0;
+            margin: 10px 0; /* Exactly 10px spacing as requested */
             color: #ffffff;
             font-size: 1rem;
             opacity: 0.8;
         }
 
         #bg-audio { display: none; }
+
+        #tap-hint {
+            position: fixed;
+            bottom: 20px;
+            color: white;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body onclick="playMusic()">
-
-    <div id="tap-hint">Tap to play</div>
 
     <div class="header">
         <h1>belong?</h1>
@@ -142,6 +132,8 @@
             just found out meeting you was the medicine!!
         </div>
     </div>
+
+    <div id="tap-hint">Tap screen to hear song</div>
 
     <audio id="bg-audio" loop>
         <source src="belong?.mp3" type="audio/mpeg">
