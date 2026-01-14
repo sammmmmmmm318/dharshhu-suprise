@@ -122,12 +122,12 @@
     <div id="tap-hint">Tap screen to hear song</div>
 
     <audio id="bg-audio" loop>
-        <source src="belong?.mp3" type="audio/mpeg">
+        <source src=belong?.mp3 type="audio/mpeg">
     </audio>
 
     <script>
         function playMusic() {
-            var audio = document.getElementById("bg-audio");
+            var audio = document.getElementById(belong?.mp3);
             var hint = document.getElementById("tap-hint");
             audio.play();
             if (hint) hint.style.display = "none";
