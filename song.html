@@ -2,92 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Belong? - Lyrics</title>
     <style>
-        /* Modern Dreamy Aesthetic CSS - Mobile Optimized */
+        /* Fit-to-Screen Mobile UI */
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden; /* Disables scrolling */
+        }
+
         body {
             background-image: url('songbg.jpeg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
             color: #2d3436;
             font-family: 'Georgia', serif;
-            margin: 0;
             display: flex;
             flex-direction: column;
+            justify-content: space-between; /* Spreads header, lyrics, and player */
             align-items: center;
-            min-height: 100vh;
-            /* Extra padding at bottom so lyrics aren't hidden by the floating player */
-            padding-bottom: 150px; 
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .header {
             text-align: center;
-            padding: 40px 20px;
-            width: 100%;
-            box-sizing: border-box;
+            flex-shrink: 0;
         }
 
         h1 { 
-            font-size: 2.8rem; /* Slightly smaller for mobile screens */
-            margin-bottom: 10px; 
+            font-size: clamp(1.5rem, 8vh, 2.5rem); /* Fluid size based on height */
+            margin: 0; 
             color: #ffffff;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             font-style: italic;
-            word-wrap: break-word;
         }
 
         h2 { 
-            font-size: 0.9rem; 
+            font-size: 0.7rem; 
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: #ffffff;
             opacity: 0.9;
+            margin-top: 5px;
         }
 
         .lyrics-container {
-            max-width: 700px;
-            width: 85%;
+            width: 95%;
+            max-width: 500px;
             text-align: center;
-            line-height: 2;
-            font-size: 1.2rem; /* Adjusted for readability on small screens */
-            white-space: pre-line;
+            /* Flex-grow allows this to take up available middle space */
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 1.4;
+            /* Fluid font size that adjusts to screen height */
+            font-size: clamp(0.85rem, 2.2vh, 1.1rem); 
             background: rgba(255, 255, 255, 0.2); 
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); /* Safari support */
-            padding: 30px 20px;
+            -webkit-backdrop-filter: blur(12px);
+            padding: 15px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            margin: 15px 0;
             color: #1e272e;
             box-sizing: border-box;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .verse-spacer {
             display: block;
-            margin: 30px 0 10px 0;
+            margin: 8px 0;
             color: #ffffff;
-            font-size: 1.2rem;
-            opacity: 0.7;
+            font-size: 1rem;
+            opacity: 0.6;
         }
 
-        /* Fixed Floating Player - Adjusted for Mobile touch */
         .player-bar {
-            position: fixed;
-            bottom: 20px;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 12px;
+            padding: 10px;
             border-radius: 40px;
             display: flex;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.4);
-            z-index: 999;
+            box-sizing: border-box;
+            flex-shrink: 0; /* Prevents player from being squished */
         }
 
         audio {
@@ -95,21 +97,11 @@
             height: 35px;
         }
 
-        /* Responsive Adjustments for very small phones */
-        @media (max-width: 480px) {
-            h1 { font-size: 2.2rem; }
-            .lyrics-container { font-size: 1.1rem; padding: 25px 15px; }
-            body { padding-bottom: 120px; }
-        }
-
-        /* Smooth reveal animation */
-        .lyrics-container {
-            animation: fadeIn 1.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Short screen adjustment (e.g., phone in landscape) */
+        @media (max-height: 500px) {
+            .verse-spacer { margin: 2px 0; }
+            h1 { font-size: 1.2rem; }
+            .lyrics-container { line-height: 1.2; padding: 10px; }
         }
     </style>
 </head>
