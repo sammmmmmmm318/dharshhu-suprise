@@ -9,7 +9,7 @@
         :root {
             --primary-green: #4a674a;
             --white-glass: rgba(255, 255, 255, 0.75);
-            /* Custom Lips Cursor */
+            /* Lips cursor for desktop */
             --kiss-cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:30px'><text y='35'>💋</text></svg>"), auto;
         }
 
@@ -26,7 +26,7 @@
             padding: 20px;
             overflow: hidden;
             cursor: var(--kiss-cursor);
-            touch-action: none; /* Prevents scrolling while tapping */
+            touch-action: none; /* Prevents accidental zooming/scrolling */
         }
 
         h1 {
@@ -88,10 +88,24 @@
             top: 12%;
         }
 
-        /* Pop effect on click */
         .kissed {
             transform: translateX(-50%) scale(1.3);
             filter: brightness(1.1);
+        }
+
+        /* --- Mobile Heart Particle Style --- */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            z-index: 999;
+            animation: floatUpFade 0.8s ease-out forwards;
+            user-select: none;
+        }
+
+        @keyframes floatUpFade {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
         }
 
         .win-box {
@@ -142,7 +156,7 @@
 
     <div class="win-box" id="winBox">
         <h2>Great Job! 💖</h2>
-        <p>Your kisses unlocked the next surprise!</p>
+        <p>You’ve kissed away the lock! The Gallery is now open.</p>
         <button class="btn" onclick="location.href='index.html'">Go to Gallery</button>
     </div>
 
@@ -152,6 +166,17 @@
         let score = 0;
         let lastHole;
         let timeUp = false;
+
+        // Function to spawn heart particles at click/touch location
+        function spawnHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = '💖'; 
+            heart.style.left = (x - 15) + 'px';
+            heart.style.top = (y - 15) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 800);
+        }
 
         function randomTime(min, max) {
             return Math.round(Math.random() * (max - min) + min);
@@ -178,9 +203,20 @@
         }
 
         function handleKiss(e) {
-            // Check for tap/click
             if(e.type === 'click' && !e.isTrusted) return; 
+
+            // Get coordinates for the heart effect
+            let x, y;
+            if (e.type.startsWith('touch')) {
+                x = e.changedTouches[0].clientX;
+                y = e.changedTouches[0].clientY;
+            } else {
+                x = e.clientX;
+                y = e.clientY;
+            }
             
+            spawnHeart(x, y);
+
             this.classList.add('kissed');
             score++;
             scoreBoard.textContent = score;
@@ -201,13 +237,14 @@
 
         stickers.forEach(s => {
             s.addEventListener('click', handleKiss);
-            // Added touchend for better mobile responsiveness
-            s.addEventListener('touchend', handleKiss);
+            s.addEventListener('touchstart', (e) => {
+                // Prevents double firing on mobile
+                e.preventDefault(); 
+                handleKiss(e);
+            });
         });
         
-        window.onload = () => {
-            peep();
-        };
+        window.onload = peep;
     </script>
 </body>
 </html>
