@@ -77,8 +77,8 @@
             height: 80%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            /* Shortened transition to match 0.4s speed */
-            transition: top 0.07s ease-out;
+            /* EXTREME SPEED: transition shortened for 0.3s gameplay */
+            transition: top 0.05s ease-out;
             user-select: none;
             pointer-events: auto;
         }
@@ -92,7 +92,7 @@
             pointer-events: none;
             font-size: 24px;
             z-index: 999;
-            animation: floatUpFade 0.5s ease-out forwards;
+            animation: floatUpFade 0.4s ease-out forwards;
         }
 
         @keyframes floatUpFade {
@@ -164,14 +164,14 @@
             heart.style.left = (x - 15) + 'px';
             heart.style.top = (y - 15) + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 500);
+            setTimeout(() => heart.remove(), 400);
         }
 
         function peep() {
             if (timeUp) return;
             
-            // CHANGED: 0.4 seconds duration
-            const duration = 400; 
+            // INSANE SPEED: 0.3 seconds duration
+            const duration = 300; 
             
             const idx = Math.floor(Math.random() * stickers.length);
             const sticker = stickers[idx];
@@ -183,8 +183,8 @@
             
             setTimeout(() => {
                 sticker.classList.remove('up');
-                // Reduced delay between stickers to 80ms for better flow
-                const nextDelay = 80; 
+                // Tiny delay between stickers for maximum intensity
+                const nextDelay = 50; 
                 if (!timeUp) setTimeout(peep, nextDelay);
             }, duration);
         }
@@ -195,7 +195,6 @@
             score++;
             scoreDisplay.innerText = score;
 
-            // Handle coordinates for both mouse and touch
             let x = e.clientX || (e.touches && e.touches[0].clientX) || (e.changedTouches && e.changedTouches[0].clientX);
             let y = e.clientY || (e.touches && e.touches[0].clientY) || (e.changedTouches && e.changedTouches[0].clientY);
             spawnHeart(x, y);
@@ -207,7 +206,7 @@
                 localStorage.setItem('card-2', 'done'); 
                 setTimeout(() => {
                     document.getElementById('winBox').style.display = 'block';
-                }, 400);
+                }, 300);
             }
         }
 
