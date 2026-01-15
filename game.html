@@ -77,7 +77,8 @@
             height: 80%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            transition: top 0.08s ease-out;
+            /* Shortened transition to match 0.4s speed */
+            transition: top 0.07s ease-out;
             user-select: none;
             pointer-events: auto;
         }
@@ -145,7 +146,7 @@
 
     <div class="win-box" id="winBox">
         <h2>Enough of muahhs</h2>
-        <p>Your next suprise is unlocked(hint:use this trick if u want something!!)</p>
+        <p>Your next surprise is unlocked (hint: use this trick if u want something!!)</p>
         <button class="btn" onclick="location.href='index.html'">Go to Gallery</button>
     </div>
 
@@ -169,8 +170,8 @@
         function peep() {
             if (timeUp) return;
             
-            // Back to 0.5 seconds duration
-            const duration = 500; 
+            // CHANGED: 0.4 seconds duration
+            const duration = 400; 
             
             const idx = Math.floor(Math.random() * stickers.length);
             const sticker = stickers[idx];
@@ -182,7 +183,8 @@
             
             setTimeout(() => {
                 sticker.classList.remove('up');
-                const nextDelay = 100; 
+                // Reduced delay between stickers to 80ms for better flow
+                const nextDelay = 80; 
                 if (!timeUp) setTimeout(peep, nextDelay);
             }, duration);
         }
@@ -193,6 +195,7 @@
             score++;
             scoreDisplay.innerText = score;
 
+            // Handle coordinates for both mouse and touch
             let x = e.clientX || (e.touches && e.touches[0].clientX) || (e.changedTouches && e.changedTouches[0].clientX);
             let y = e.clientY || (e.touches && e.touches[0].clientY) || (e.changedTouches && e.changedTouches[0].clientY);
             spawnHeart(x, y);
@@ -216,4 +219,3 @@
     </script>
 </body>
 </html>
-
