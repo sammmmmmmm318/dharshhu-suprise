@@ -9,7 +9,6 @@
         :root {
             --primary-green: #4a674a;
             --white-glass: rgba(255, 255, 255, 0.75);
-            /* Lips cursor for desktop */
             --kiss-cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:30px'><text y='35'>💋</text></svg>"), auto;
         }
 
@@ -26,7 +25,7 @@
             padding: 20px;
             overflow: hidden;
             cursor: var(--kiss-cursor);
-            touch-action: none; /* Prevents accidental zooming/scrolling */
+            touch-action: none;
         }
 
         h1 {
@@ -35,7 +34,6 @@
             font-size: 2.8rem;
             margin: 20px 0;
             font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
             user-select: none;
         }
 
@@ -79,28 +77,21 @@
             height: 75%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.1s;
+            transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             user-select: none;
-            -webkit-user-drag: none;
+            pointer-events: auto; /* Ensures it can be clicked */
         }
 
         .sticker.up {
             top: 12%;
         }
 
-        .kissed {
-            transform: translateX(-50%) scale(1.3);
-            filter: brightness(1.1);
-        }
-
-        /* --- Mobile Heart Particle Style --- */
         .heart-particle {
             position: fixed;
             pointer-events: none;
             font-size: 24px;
             z-index: 999;
             animation: floatUpFade 0.8s ease-out forwards;
-            user-select: none;
         }
 
         @keyframes floatUpFade {
@@ -119,7 +110,7 @@
             border-radius: 24px;
             text-align: center;
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            z-index: 100;
+            z-index: 1000;
             width: 80%;
         }
 
@@ -133,8 +124,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-
-        body:active { cursor: var(--kiss-cursor); }
     </style>
 </head>
 <body>
@@ -156,44 +145,36 @@
 
     <div class="win-box" id="winBox">
         <h2>Great Job! 💖</h2>
-        <p>You’ve kissed away the lock! The Gallery is now open.</p>
+        <p>Your kisses unlocked the next surprise!</p>
         <button class="btn" onclick="location.href='index.html'">Go to Gallery</button>
     </div>
 
     <script>
         const stickers = document.querySelectorAll('.sticker');
-        const scoreBoard = document.querySelector('#score');
+        const scoreDisplay = document.getElementById('score');
         let score = 0;
         let lastHole;
         let timeUp = false;
 
-        // Function to spawn heart particles at click/touch location
         function spawnHeart(x, y) {
             const heart = document.createElement('div');
             heart.className = 'heart-particle';
-            heart.innerHTML = '💋'; 
+            heart.innerHTML = '💖'; 
             heart.style.left = (x - 15) + 'px';
             heart.style.top = (y - 15) + 'px';
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 800);
         }
 
-        function randomTime(min, max) {
-            return Math.round(Math.random() * (max - min) + min);
-        }
-
-        function randomHole(stickers) {
-            const idx = Math.floor(Math.random() * stickers.length);
-            const hole = stickers[idx];
-            if (hole === lastHole) return randomHole(stickers);
-            lastHole = hole;
-            return hole;
-        }
-
         function peep() {
             if (timeUp) return;
-            const time = randomTime(700, 1300);
-            const sticker = randomHole(stickers);
+            const time = Math.random() * (1300 - 700) + 700;
+            const idx = Math.floor(Math.random() * stickers.length);
+            const sticker = stickers[idx];
+
+            if (sticker === lastHole) return peep();
+            lastHole = sticker;
+
             sticker.classList.add('up');
             
             setTimeout(() => {
@@ -203,49 +184,36 @@
         }
 
         function handleKiss(e) {
-            if(e.type === 'click' && !e.isTrusted) return; 
+            // Prevent the game from counting clicks if the sticker is hidden
+            if (!this.classList.contains('up') || timeUp) return;
 
-            // Get coordinates for the heart effect
-            let x, y;
-            if (e.type.startsWith('touch')) {
-                x = e.changedTouches[0].clientX;
-                y = e.changedTouches[0].clientY;
-            } else {
-                x = e.clientX;
-                y = e.clientY;
-            }
-            
+            // Increment Score
+            score++;
+            scoreDisplay.innerText = score;
+
+            // Get coordinates for effect
+            let x = e.clientX || (e.touches && e.touches[0].clientX) || (e.changedTouches && e.changedTouches[0].clientX);
+            let y = e.clientY || (e.touches && e.touches[0].clientY) || (e.changedTouches && e.changedTouches[0].clientY);
             spawnHeart(x, y);
 
-            this.classList.add('kissed');
-            score++;
-            scoreBoard.textContent = score;
-            
-            setTimeout(() => {
-                this.classList.remove('up');
-                this.classList.remove('kissed');
-            }, 100);
-            
-            if(score >= 10) {
+            // Hide sticker immediately
+            this.classList.remove('up');
+
+            // Check Win Condition
+            if (score >= 10) {
                 timeUp = true;
                 localStorage.setItem('card-2', 'done'); 
-                setTimeout(() => {
-                    document.getElementById('winBox').style.display = 'block';
-                }, 500);
+                document.getElementById('winBox').style.display = 'block';
             }
         }
 
+        // Add listeners to each sticker
         stickers.forEach(s => {
-            s.addEventListener('click', handleKiss);
-            s.addEventListener('touchstart', (e) => {
-                // Prevents double firing on mobile
-                e.preventDefault(); 
-                handleKiss(e);
-            });
+            // Use pointerdown for the fastest response on all devices
+            s.addEventListener('pointerdown', handleKiss);
         });
         
         window.onload = peep;
     </script>
 </body>
 </html>
-
