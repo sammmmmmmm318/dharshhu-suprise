@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Blitz Heart Catch! 💋</title>
+    <title>Muahh chello</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -77,8 +77,8 @@
             height: 80%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            /* Ultra-fast movement */
-            transition: top 0.08s ease-out;
+            /* Instant movement for 0.3s gameplay */
+            transition: top 0.05s ease-out;
             user-select: none;
             pointer-events: auto;
         }
@@ -92,7 +92,7 @@
             pointer-events: none;
             font-size: 24px;
             z-index: 999;
-            animation: floatUpFade 0.5s ease-out forwards;
+            animation: floatUpFade 0.4s ease-out forwards;
         }
 
         @keyframes floatUpFade {
@@ -129,8 +129,8 @@
 </head>
 <body>
 
-    <h1>Catch the Surprise!</h1>
-    <div class="score-board">Kisses: <span id="score">0</span> / 10</div>
+    <h1>Muahhh dharshuu😘</h1>
+    <div class="score-board">OMGGG KISS? <span id="score">0</span> / 10</div>
     
     <div class="game-grid">
         <div class="hole"><img src="Subject 5.png" class="sticker"></div>
@@ -145,8 +145,8 @@
     </div>
 
     <div class="win-box" id="winBox">
-        <h2>Legendary Speed! 💖</h2>
-        <p>You’re way too fast! The secret gallery is now unlocked.</p>
+        <h2>ENOUGH OF MUAHHS?</h2>
+        <p>So your gallery is unlocked(use this trick if u want something!!)</p>
         <button class="btn" onclick="location.href='index.html'">Go to Gallery</button>
     </div>
 
@@ -164,14 +164,14 @@
             heart.style.left = (x - 15) + 'px';
             heart.style.top = (y - 15) + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 500);
+            setTimeout(() => heart.remove(), 400);
         }
 
         function peep() {
             if (timeUp) return;
             
-            // Exactly 0.5 seconds duration
-            const duration = 500; 
+            // INSANE: Exactly 0.3 seconds duration
+            const duration = 300; 
             
             const idx = Math.floor(Math.random() * stickers.length);
             const sticker = stickers[idx];
@@ -183,13 +183,14 @@
             
             setTimeout(() => {
                 sticker.classList.remove('up');
-                // Next sticker appears almost immediately (100ms delay)
-                const nextDelay = 100; 
+                // Next sticker pops up even faster (50ms)
+                const nextDelay = 50; 
                 if (!timeUp) setTimeout(peep, nextDelay);
             }, duration);
         }
 
         function handleKiss(e) {
+            // Only count if it's currently visible
             if (!this.classList.contains('up') || timeUp) return;
 
             score++;
@@ -204,7 +205,9 @@
             if (score >= 10) {
                 timeUp = true;
                 localStorage.setItem('card-2', 'done'); 
-                document.getElementById('winBox').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('winBox').style.display = 'block';
+                }, 300);
             }
         }
 
@@ -216,4 +219,3 @@
     </script>
 </body>
 </html>
-
