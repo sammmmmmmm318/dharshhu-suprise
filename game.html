@@ -77,8 +77,8 @@
             height: 80%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            /* Transition set for 0.4s rhythm */
-            transition: top 0.07s ease-out;
+            /* Transition adjusted for 0.5s rhythm */
+            transition: top 0.08s ease-out;
             user-select: none;
             pointer-events: auto;
         }
@@ -170,8 +170,8 @@
         function peep() {
             if (timeUp) return;
             
-            // Back to 0.4 seconds duration
-            const duration = 400; 
+            // Back to 0.5 seconds duration
+            const duration = 500; 
             
             const idx = Math.floor(Math.random() * stickers.length);
             const sticker = stickers[idx];
@@ -183,7 +183,8 @@
             
             setTimeout(() => {
                 sticker.classList.remove('up');
-                const nextDelay = 80; 
+                // Standard delay for 0.5s mode
+                const nextDelay = 100; 
                 if (!timeUp) setTimeout(peep, nextDelay);
             }, duration);
         }
@@ -205,7 +206,7 @@
                 localStorage.setItem('card-2', 'done'); 
                 setTimeout(() => {
                     document.getElementById('winBox').style.display = 'block';
-                }, 400);
+                }, 500);
             }
         }
 
@@ -217,5 +218,3 @@
     </script>
 </body>
 </html>
-
-
