@@ -14,7 +14,7 @@
 
         body {
             margin: 0;
-            background-image: url('gamebg.jpg');
+            background-image: url('bpap.png');
             background-size: cover;
             background-attachment: fixed;
             font-family: 'Segoe UI', sans-serif;
@@ -77,7 +77,7 @@
             height: 80%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            /* EXTREME: 0.08s for near-instant movement */
+            /* Instant pop up/down transition */
             transition: top 0.08s ease-out;
             user-select: none;
             pointer-events: auto;
@@ -170,12 +170,9 @@
         function peep() {
             if (timeUp) return;
             
-            // DYNAMIC SPEED CALCULATION
-            // As score increases, min and max time decrease
-            const minTime = 300 - (score * 15); // Starts at 300ms, ends at 150ms
-            const maxTime = 700 - (score * 30); // Starts at 700ms, ends at 400ms
+            // Fixed 1 second duration for being "up"
+            const duration = 1000; 
             
-            const time = Math.random() * (maxTime - minTime) + minTime;
             const idx = Math.floor(Math.random() * stickers.length);
             const sticker = stickers[idx];
 
@@ -186,10 +183,10 @@
             
             setTimeout(() => {
                 sticker.classList.remove('up');
-                // The delay between stickers also shortens
-                const nextDelay = Math.max(50, 150 - (score * 10));
+                // Very short delay before the next one pops up elsewhere
+                const nextDelay = 100; 
                 if (!timeUp) setTimeout(peep, nextDelay);
-            }, time);
+            }, duration);
         }
 
         function handleKiss(e) {
@@ -219,5 +216,3 @@
     </script>
 </body>
 </html>
-
-
