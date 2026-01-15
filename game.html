@@ -77,9 +77,10 @@
             height: 75%;
             object-fit: contain;
             cursor: var(--kiss-cursor);
-            transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* FASTENED: Reduced from 0.2s to 0.1s for instant pop */
+            transition: top 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             user-select: none;
-            pointer-events: auto; /* Ensures it can be clicked */
+            pointer-events: auto;
         }
 
         .sticker.up {
@@ -91,7 +92,7 @@
             pointer-events: none;
             font-size: 24px;
             z-index: 999;
-            animation: floatUpFade 0.8s ease-out forwards;
+            animation: floatUpFade 0.6s ease-out forwards;
         }
 
         @keyframes floatUpFade {
@@ -163,12 +164,14 @@
             heart.style.left = (x - 15) + 'px';
             heart.style.top = (y - 15) + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 800);
+            setTimeout(() => heart.remove(), 600);
         }
 
         function peep() {
             if (timeUp) return;
-            const time = Math.random() * (1300 - 700) + 700;
+            
+            // FASTENED: Speed of popping up (400ms to 900ms)
+            const time = Math.random() * (900 - 400) + 400;
             const idx = Math.floor(Math.random() * stickers.length);
             const sticker = stickers[idx];
 
@@ -179,27 +182,23 @@
             
             setTimeout(() => {
                 sticker.classList.remove('up');
-                if (!timeUp) peep();
+                // FASTENED: Delay before the NEXT one appears (only 100ms)
+                if (!timeUp) setTimeout(peep, 100);
             }, time);
         }
 
         function handleKiss(e) {
-            // Prevent the game from counting clicks if the sticker is hidden
             if (!this.classList.contains('up') || timeUp) return;
 
-            // Increment Score
             score++;
             scoreDisplay.innerText = score;
 
-            // Get coordinates for effect
             let x = e.clientX || (e.touches && e.touches[0].clientX) || (e.changedTouches && e.changedTouches[0].clientX);
             let y = e.clientY || (e.touches && e.touches[0].clientY) || (e.changedTouches && e.changedTouches[0].clientY);
             spawnHeart(x, y);
 
-            // Hide sticker immediately
             this.classList.remove('up');
 
-            // Check Win Condition
             if (score >= 10) {
                 timeUp = true;
                 localStorage.setItem('card-2', 'done'); 
@@ -207,9 +206,7 @@
             }
         }
 
-        // Add listeners to each sticker
         stickers.forEach(s => {
-            // Use pointerdown for the fastest response on all devices
             s.addEventListener('pointerdown', handleKiss);
         });
         
@@ -217,4 +214,3 @@
     </script>
 </body>
 </html>
-
