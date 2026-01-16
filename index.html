@@ -221,59 +221,77 @@
 
     <script>
         const sequence = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5'];
-
+    
         function refreshLocks() {
             sequence.forEach((className, index) => {
                 const card = document.querySelector(`.${className}`);
                 if (!card) return;
                 
+                // The first card is ALWAYS unlocked
                 if (index === 0) {
                     card.classList.remove('locked');
                 } else {
-                    const prevCard = sequence[index - 1];
-                    if (localStorage.getItem(prevCard) === 'done') {
+                    // A card is unlocked IF the one before it is 'done'
+                    const prevCardId = sequence[index - 1];
+                    const isPrevDone = localStorage.getItem(prevCardId) === 'done';
+                    
+                    if (isPrevDone) {
                         card.classList.remove('locked');
                     } else {
                         card.classList.add('locked');
                     }
                 }
             });
-
+    
+            // Handle the Pulse effect (only on the latest unlocked card that isn't done yet)
             document.querySelectorAll('.card').forEach(c => c.classList.remove('pulse'));
-            const unlocked = document.querySelectorAll('.card:not(.locked)');
-            if (unlocked.length > 0) {
-                const last = unlocked[unlocked.length - 1];
-                const id = sequence.find(cls => last.classList.contains(cls));
-                if (localStorage.getItem(id) !== 'done') last.classList.add('pulse');
+            
+            for (const id of sequence) {
+                const card = document.querySelector(`.${id}`);
+                if (card && !card.classList.contains('locked') && localStorage.getItem(id) !== 'done') {
+                    card.classList.add('pulse');
+                    break; // Only pulse the first available action
+                }
             }
         }
-
+    
         function handleStep(cardClass, url) {
             const el = document.querySelector(`.${cardClass}`);
+            
+            // 1. If locked, shake and stop
             if (el.classList.contains('locked')) {
                 el.classList.add('apply-shake');
                 setTimeout(() => el.classList.remove('apply-shake'), 400);
                 return;
             }
+    
+            // 2. Mark CURRENT card as done
             localStorage.setItem(cardClass, 'done');
-            refreshLocks();
-            setTimeout(() => { window.location.href = url; }, 150);
+    
+            // 3. Small delay to ensure localStorage is saved before navigating
+            setTimeout(() => { 
+                window.location.href = url; 
+            }, 100);
         }
-
+    
+        // Secret Reset Trigger (Tap Header 5 times)
         let tapCount = 0;
+        let tapTimer;
         document.getElementById('secret-trigger').onclick = function() {
+            clearTimeout(tapTimer);
             tapCount++;
-            if (tapCount === 5) {
+            if (tapCount >= 5) {
                 localStorage.clear();
                 alert("Progress Reset!");
                 tapCount = 0;
                 refreshLocks();
             }
-            setTimeout(() => { tapCount = 0; }, 3000);
+            tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
         };
-
+    
+        // Run refresh on all possible page load/return events
+        window.addEventListener('load', refreshLocks);
         window.addEventListener('pageshow', refreshLocks);
-        window.onload = refreshLocks;
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') refreshLocks();
         });
