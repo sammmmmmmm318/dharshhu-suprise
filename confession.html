@@ -52,11 +52,10 @@
             overflow: hidden;
         }
 
-        /* The Final Background update */
+        /* Logic for when the image is triggered */
         .container.final-bg {
-            background-image: url('IMG_1917.JPG') ;
-            background-size: cover;
-            background-position: center;
+            background-size: cover !important;
+            background-position: center !important;
             border: 2px solid #2e7d32;
         }
 
@@ -64,7 +63,7 @@
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.2); /* Soft overlay for readability */
+            background: rgba(255, 255, 255, 0.15); /* Slightly lighter overlay */
             z-index: 0;
         }
 
@@ -83,7 +82,7 @@
 
         #result.green { 
             color: #1b5e20; 
-            background: rgba(255,255,255,0.85); 
+            background: rgba(255,255,255,0.9); 
             padding: 15px; 
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -111,8 +110,6 @@
             white-space: nowrap; 
             max-width: 100%; 
             transition: all 0.3s ease;
-            
-            /* Centering Fix */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -163,7 +160,8 @@
             const mainQ = document.getElementById("mainQuestion");
             const mainBox = document.getElementById("mainBox");
 
-            // Adds the final background image to the box
+            // Apply direct style to ensure background image loads
+            mainBox.style.backgroundImage = "url('IMG_1917.JPG')";
             mainBox.classList.add("final-bg");
 
             btnWrapper.style.display = "none";
@@ -184,7 +182,6 @@
 
             noCount++;
             
-            // Limit growth logic
             if (noCount <= 5) {
                 padH += 30; 
                 padV += 5; 
@@ -193,7 +190,6 @@
                 yesBtn.style.fontSize = `${fSize}px`;
             }
 
-            // Shake No button
             noBtn.classList.remove('shake');
             void noBtn.offsetWidth; 
             noBtn.classList.add('shake');
@@ -204,7 +200,7 @@
             
             if (noCount >= 4) {
                 noBtn.style.display = "none";
-                yesBtn.style.width = "100%"; // Center it across the whole width
+                yesBtn.style.width = "100%";
             }
         }
     </script>
