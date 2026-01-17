@@ -64,20 +64,20 @@
     <div class="box">
         <div id="result"></div>
 
-        <h2>Do you like me? ♡</h2>
+        <h2>I LOVE YOU MOREE ♡</h2>
 
-        <button class="yes" id="yesBtn" onclick="answerYes()">Yes</button>
+        <button class="YES" id="YESBtn" onclick="answerYES()">YES</button>
         <button class="no" id="noBtn" onclick="answerNo()">No</button>
     </div>
 
     <script>
         let noCount = 0;
-        let yesScale = 1;
+        let YESScale = 1;
 
-        function answerYes() {
+        function answerYES() {
             const result = document.getElementById("result");
             result.style.color = "#2e7d32";
-            result.innerHTML = "hahaha see i love you more 💚";
+            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN(LOVE YOU MOREE CHELLO) 💚";
 
             setTimeout(() => {
                 window.location.href = "https://sammmmmmmm318.github.io/dharshhu-suprise/";
@@ -87,27 +87,27 @@
         function answerNo() {
             const result = document.getElementById("result");
             const noBtn = document.getElementById("noBtn");
-            const yesBtn = document.getElementById("yesBtn");
+            const YESBtn = document.getElementById("yesBtn");
 
             noCount++;
 
             // Increase YES size every NO click
-            yesScale += 0.25;
-            yesBtn.style.transform = `scale(${yesScale})`;
+            YESScale += 0.25;
+            YESBtn.style.transform = `scale(${YESScale})`;
 
             result.style.color = "#d32f2f";
 
             if (noCount === 1) {
-                result.innerHTML = "wrong answer ❌ try again";
+                result.innerHTML = "WRONG ANSWERR DUMBBOO, TRY AGAIN!!";
             } 
             else if (noCount === 2) {
-                result.innerHTML = "give it to me pleaseee chello 🥺";
+                result.innerHTML = "GIVE IT TO MEE(UK THE TRUTH)";
             } 
             else if (noCount === 3) {
-                result.innerHTML = "u aint getting your gift until i get the correct answer 😌";
+                result.innerHTML = "YOU AINT GETTING YOU GIFT UNTIL I GET MY ANSWER!!";
             } 
             else {
-                result.innerHTML = "hahaahaha bow bow 😂";
+                result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN(LOVE YOU MOREE CHELLO)";
                 noBtn.style.display = "none";
             }
         }
