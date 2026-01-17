@@ -1,4 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
 
-<script>
-    localStorage.setItem('card-3', 'done');
-</script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e8f5e9, #ffffff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .note {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 22px;
+            border-radius: 25px;
+            border: none;
+            background: #2e7d32;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Our Memories ♡</h2>
+
+    <div class="gallery">
+        <!-- Replace with your actual images -->
+        <img src="img1.jpg" alt="Memory 1">
+        <img src="img2.jpg" alt="Memory 2">
+        <img src="img3.jpg" alt="Memory 3">
+        <img src="img4.jpg" alt="Memory 4">
+    </div>
+
+    <div class="note">Scroll and smile 💚</div>
+
+    <button class="back-btn" onclick="goBack()">Go Back</button>
+
+    <script>
+        // ✅ Mark Gallery (card-3) as completed
+        localStorage.setItem('card-3', 'done');
+
+        function goBack() {
+            window.location.href = "index.html"; // change if needed
+        }
+    </script>
+
+</body>
+</html>
