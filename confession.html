@@ -52,9 +52,9 @@
             overflow: hidden;
         }
 
-        /* Fixed background class logic */
+        /* The Final Background update */
         .container.final-bg {
-            background-image: url('bpap.png') !important;
+            background-image: url('IMG_1917.JPG') ;
             background-size: cover;
             background-position: center;
             border: 2px solid #2e7d32;
@@ -64,7 +64,7 @@
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255, 255, 255, 0.3); 
+            background: rgba(255, 255, 255, 0.2); /* Soft overlay for readability */
             z-index: 0;
         }
 
@@ -83,9 +83,10 @@
 
         #result.green { 
             color: #1b5e20; 
-            background: rgba(255,255,255,0.8); 
+            background: rgba(255,255,255,0.85); 
             padding: 15px; 
-            border-radius: 15px; 
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .btn-wrapper {
@@ -111,11 +112,10 @@
             max-width: 100%; 
             transition: all 0.3s ease;
             
-            /* --- FIX: Perfect Centering --- */
+            /* Centering Fix */
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
 
         .no {
@@ -126,6 +126,16 @@
             font-size: 16px;
             padding: 12px 35px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
     </style>
 </head>
@@ -153,8 +163,8 @@
             const mainQ = document.getElementById("mainQuestion");
             const mainBox = document.getElementById("mainBox");
 
-            // Fix: Add the proper CSS class name
-            mainBox.classList.add("bpap.png");
+            // Adds the final background image to the box
+            mainBox.classList.add("final-bg");
 
             btnWrapper.style.display = "none";
             mainQ.style.display = "none";
@@ -173,6 +183,8 @@
             const yesBtn = document.getElementById("yesBtn");
 
             noCount++;
+            
+            // Limit growth logic
             if (noCount <= 5) {
                 padH += 30; 
                 padV += 5; 
@@ -181,14 +193,18 @@
                 yesBtn.style.fontSize = `${fSize}px`;
             }
 
+            // Shake No button
+            noBtn.classList.remove('shake');
+            void noBtn.offsetWidth; 
+            noBtn.classList.add('shake');
+
             result.innerHTML = noCount === 1 ? "WRONG ANSWERR DUMBBOO😤" : 
                                noCount === 2 ? "NO GIFT FOR YOU UNTIL U ACCEPT😌" : 
                                noCount === 3 ? "GIVE IT TO ME PLEASEEE🥺" : "HAHAHAHAHA BOW BOW 😈";
             
             if (noCount >= 4) {
                 noBtn.style.display = "none";
-                // Ensure Yes button spans nicely when No is gone
-                yesBtn.style.width = "100%";
+                yesBtn.style.width = "100%"; // Center it across the whole width
             }
         }
     </script>
