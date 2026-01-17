@@ -2,102 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Confession!!</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.6);
+            --yes-green: #2e7d32;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             margin: 0;
+            background-image: url('questionbg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
-            background-image: url(questionbg.jpeg);
+            overflow: hidden; 
+        }
+
+        .container {
+            width: 92%;
+            max-width: 380px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 35px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s ease;
+            min-height: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* NEW STYLE: Background image for the box on WIN */
+        .container.final-bg {
+            background-image: url('songg.jpeg'); /* Replace with your image URL */
             background-size: cover;
             background-position: center;
+            border: 2px solid #2e7d32;
         }
 
-        .box {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.465);
-            padding: 60px 50px;   
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-            max-width: 520px;
-            width: 90%;
+        /* Overlay to keep text readable if the image is too dark/busy */
+        .container.final-bg::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.3); 
+            z-index: 0;
         }
 
-        /* RED MESSAGE (bigger & bolder) */
         #result {
-            min-height: 50px;
-            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            min-height: 90px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
         }
 
-        #result.red {
-            color: #d32f2f;
-            font-size: 30px;
-            font-weight: 1000;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+        #result.green { 
+            color: #1b5e20; 
+            background: rgba(255,255,255,0.7); 
+            padding: 10px; 
+            border-radius: 15px; 
         }
 
-        #result.green {
-            color: #2e7d32;
-            font-size: 32px;
-            font-weight: 1000;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            margin-bottom: 40px;
-            color: #2e7d32;
-            font-size: 30px;
-            font-weight: 700;
-        }
-
-        button {
-            padding: 14px 40px;
-            margin: 12px;
-            font-size: 18px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+        .btn-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            width: 100%;
         }
 
         .yes {
-            background-color: #074109;
+            background-color: var(--yes-green);
             color: white;
+            border: none;
+            border-radius: 100px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 16px 45px;
+            white-space: nowrap; 
+            max-width: 100%; 
+            transition: all 0.3s ease;
         }
 
         .no {
-            background-color: #ffffff;
+            background-color: white;
             color: #333;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            padding: 12px 35px;
         }
     </style>
 </head>
 <body>
 
-    <div class="box">
+    <div class="container" id="mainBox">
         <div id="result"></div>
+        <h2 id="mainQuestion" style="position:relative; z-index:1;">I LOVE YOU MOREE ♡</h2>
 
-        <h2>I LOVE YOU MOREE ♡</h2>
-
-        <button class="yes" id="yesBtn" onclick="answerYES()">YES</button>
-        <button class="no" id="noBtn" onclick="answerNo()">No</button>
+        <div class="btn-wrapper">
+            <button class="yes" id="yesBtn" onclick="answerYES()">YES</button>
+            <button class="no" id="noBtn" onclick="answerNo()">No</button>
+        </div>
     </div>
 
     <script>
         let noCount = 0;
-        let yesScale = 1;
+        let padH = 45;
+        let padV = 16;
+        let fSize = 20;
 
         function answerYES() {
             const result = document.getElementById("result");
+            const btnWrapper = document.querySelector(".btn-wrapper");
+            const mainQ = document.getElementById("mainQuestion");
+            const mainBox = document.getElementById("mainBox");
+
+            // 1. Add the new background class to the box
+            mainBox.classList.add("songg.jpeg");
+
+            btnWrapper.style.display = "none";
+            mainQ.style.display = "none";
+
             result.className = "green";
-            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN (LOVE YOU MOREE CHELLO) 💚";
+            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN <br>(LOVE YOU MOREE CHELLO) 💚";
 
             setTimeout(() => {
                 window.location.href = "https://sammmmmmmm318.github.io/dharshhu-suprise/";
@@ -110,29 +167,17 @@
             const yesBtn = document.getElementById("yesBtn");
 
             noCount++;
-
-            /* YES grows every NO */
-            yesScale += 0.25;
-            yesBtn.style.transform = `scale(${yesScale})`;
-
-            result.className = "red";
-
-            if (noCount === 1) {
-                result.innerHTML = "WRONG ANSWERR DUMBBOO 😤 TRY AGAIN!!";
-            } 
-            else if (noCount === 2) {
-                result.innerHTML = "U AINT GETTING YOUR GIFT UNTIL I GET THE RIGHT ANSWER 😌";
-            } 
-            else if (noCount === 3) {
-                result.innerHTML = "GIVE IT TO ME PLEASEEE CHELLO 🥺";
-            } 
-            else {
-                result.innerHTML = "HAHAHAHAHA BOW BOW 😈";
-                noBtn.style.display = "none";
+            if (noCount <= 5) {
+                padH += 30; padV += 5; fSize += 6;
+                yesBtn.style.padding = `${padV}px ${padH}px`;
+                yesBtn.style.fontSize = `${fSize}px`;
             }
+
+            result.innerHTML = noCount === 1 ? "WRONG ANSWERR DUMBBOO😤" : 
+                               noCount === 2 ? "NO GIFT FOR YOU UNTIL U ACCEPT😌" : 
+                               noCount === 3 ? "GIVE IT TO ME PLEASEEE🥺" : "HAHAHAHAHA BOW BOW 😈";
+            
+            if (noCount >= 4) noBtn.style.display = "none";
         }
     </script>
-
 </body>
-</html>
-
