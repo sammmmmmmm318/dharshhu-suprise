@@ -21,23 +21,25 @@
 
         .box {
             text-align: center;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 70px;
+            width: 420px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
 
         h2 {
             margin-bottom: 30px;
+            font-size: 24px;
             color: #2e7d32;
         }
 
         button {
-            padding: 12px 28px;
-            margin: 10px;
-            font-size: 16px;
+            padding: 14px 36px;
+            margin: 12px;
+            font-size: 18px;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -53,9 +55,9 @@
         }
 
         #result {
-            margin-top: 20px;
-            font-size: 15px;
-            min-height: 26px;
+            margin-bottom: 25px;
+            font-size: 16px;
+            min-height: 30px;
         }
     </style>
 </head>
@@ -66,7 +68,8 @@
 
         <h2>I LOVE YOU MOREE ♡</h2>
 
-        <button class="YES" id="YESBtn" onclick="answerYES()">YES</button>
+        <!-- ✅ FIXED class + id -->
+        <button class="yes" id="YESBtn" onclick="answerYES()">YES</button>
         <button class="no" id="noBtn" onclick="answerNo()">No</button>
     </div>
 
@@ -77,7 +80,7 @@
         function answerYES() {
             const result = document.getElementById("result");
             result.style.color = "#2e7d32";
-            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN(LOVE YOU MOREE CHELLO) 💚";
+            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN 💚<br>LOVE YOU MOREE CHELLO 😌";
 
             setTimeout(() => {
                 window.location.href = "https://sammmmmmmm318.github.io/dharshhu-suprise/";
@@ -87,27 +90,27 @@
         function answerNo() {
             const result = document.getElementById("result");
             const noBtn = document.getElementById("noBtn");
-            const YESBtn = document.getElementById("yesBtn");
+            const YESBtn = document.getElementById("YESBtn"); // ✅ FIXED ID
 
             noCount++;
 
-            // Increase YES size every NO click
+            // 🔍 Increase YES size every NO click
             YESScale += 0.25;
             YESBtn.style.transform = `scale(${YESScale})`;
 
             result.style.color = "#d32f2f";
 
             if (noCount === 1) {
-                result.innerHTML = "WRONG ANSWERR DUMBBOO, TRY AGAIN!!";
+                result.innerHTML = "WRONG ANSWERR DUMBBOO 😤 TRY AGAIN!!";
             } 
             else if (noCount === 2) {
-                result.innerHTML = "GIVE IT TO MEE(UK THE TRUTH)";
+                result.innerHTML = "GIVE IT TO MEE 😌 YOU KNOW THE TRUTH";
             } 
             else if (noCount === 3) {
-                result.innerHTML = "YOU AINT GETTING YOU GIFT UNTIL I GET MY ANSWER!!";
+                result.innerHTML = "YOU AIN'T GETTING YOUR GIFT UNTIL I GET MY ANSWER 😈";
             } 
             else {
-                result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN(LOVE YOU MOREE CHELLO)";
+                result.innerHTML = "HAHAHAHA BOW BOW 😆 I WONN";
                 noBtn.style.display = "none";
             }
         }
