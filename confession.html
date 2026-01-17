@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confession!!</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background-image: url(questionbg.jpeg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .box {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #2e7d32;
+        }
+
+        button {
+            padding: 12px 28px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .yes {
+            background-color: #074109;
+            color: white;
+        }
+
+        .no {
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 15px;
+            min-height: 26px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <div id="result"></div>
+
+        <h2>Do you like me? ♡</h2>
+
+        <button class="yes" id="yesBtn" onclick="answerYes()">Yes</button>
+        <button class="no" id="noBtn" onclick="answerNo()">No</button>
+    </div>
+
+    <script>
+        let noCount = 0;
+        let yesScale = 1;
+
+        function answerYes() {
+            const result = document.getElementById("result");
+            result.style.color = "#2e7d32";
+            result.innerHTML = "hahaha see i love you more 💚";
+
+            setTimeout(() => {
+                window.location.href = "https://sammmmmmmm318.github.io/dharshhu-suprise/";
+            }, 5000);
+        }
+
+        function answerNo() {
+            const result = document.getElementById("result");
+            const noBtn = document.getElementById("noBtn");
+            const yesBtn = document.getElementById("yesBtn");
+
+            noCount++;
+
+            // Increase YES size every NO click
+            yesScale += 0.25;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            result.style.color = "#d32f2f";
+
+            if (noCount === 1) {
+                result.innerHTML = "wrong answer ❌ try again";
+            } 
+            else if (noCount === 2) {
+                result.innerHTML = "give it to me pleaseee chello 🥺";
+            } 
+            else if (noCount === 3) {
+                result.innerHTML = "u aint getting your gift until i get the correct answer 😌";
+            } 
+            else {
+                result.innerHTML = "hahaahaha bow bow 😂";
+                noBtn.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
