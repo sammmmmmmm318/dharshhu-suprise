@@ -52,15 +52,14 @@
             overflow: hidden;
         }
 
-        /* NEW STYLE: Background image for the box on WIN */
+        /* Fixed background class logic */
         .container.final-bg {
-            background-image: url('songg.jpeg'); /* Replace with your image URL */
+            background-image: url('bpap.png') !important;
             background-size: cover;
             background-position: center;
             border: 2px solid #2e7d32;
         }
 
-        /* Overlay to keep text readable if the image is too dark/busy */
         .container.final-bg::before {
             content: "";
             position: absolute;
@@ -84,8 +83,8 @@
 
         #result.green { 
             color: #1b5e20; 
-            background: rgba(255,255,255,0.7); 
-            padding: 10px; 
+            background: rgba(255,255,255,0.8); 
+            padding: 15px; 
             border-radius: 15px; 
         }
 
@@ -111,6 +110,12 @@
             white-space: nowrap; 
             max-width: 100%; 
             transition: all 0.3s ease;
+            
+            /* --- FIX: Perfect Centering --- */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         .no {
@@ -120,6 +125,7 @@
             border-radius: 50px;
             font-size: 16px;
             padding: 12px 35px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -147,8 +153,8 @@
             const mainQ = document.getElementById("mainQuestion");
             const mainBox = document.getElementById("mainBox");
 
-            // 1. Add the new background class to the box
-            mainBox.classList.add("songg.jpeg");
+            // Fix: Add the proper CSS class name
+            mainBox.classList.add("bpap.png");
 
             btnWrapper.style.display = "none";
             mainQ.style.display = "none";
@@ -168,7 +174,9 @@
 
             noCount++;
             if (noCount <= 5) {
-                padH += 30; padV += 5; fSize += 6;
+                padH += 30; 
+                padV += 5; 
+                fSize += 6;
                 yesBtn.style.padding = `${padV}px ${padH}px`;
                 yesBtn.style.fontSize = `${fSize}px`;
             }
@@ -177,7 +185,12 @@
                                noCount === 2 ? "NO GIFT FOR YOU UNTIL U ACCEPT😌" : 
                                noCount === 3 ? "GIVE IT TO ME PLEASEEE🥺" : "HAHAHAHAHA BOW BOW 😈";
             
-            if (noCount >= 4) noBtn.style.display = "none";
+            if (noCount >= 4) {
+                noBtn.style.display = "none";
+                // Ensure Yes button spans nicely when No is gone
+                yesBtn.style.width = "100%";
+            }
         }
     </script>
 </body>
+</html>
