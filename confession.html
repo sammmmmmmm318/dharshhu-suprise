@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Confession!!</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -21,21 +21,43 @@
 
         .box {
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 60px 70px;
-            width: 420px;
+            background: rgba(255, 255, 255, 0.465);
+            padding: 60px 50px;   /* 🔥 BIGGER BOX */
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            max-width: 520px;
+            width: 90%;
+        }
+
+        /* RED MESSAGE (bigger & bolder) */
+        #result {
+            min-height: 50px;
+            margin-bottom: 30px;
+        }
+
+        #result.red {
+            color: #d32f2f;
+            font-size: 30px;
+            font-weight: 1000;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        #result.green {
+            color: #2e7d32;
+            font-size: 18px;
+            font-weight: 600;
         }
 
         h2 {
-            margin-bottom: 30px;
-            font-size: 24px;
+            margin-bottom: 40px;
             color: #2e7d32;
+            font-size: 30px;
+            font-weight: 700;
         }
 
         button {
-            padding: 14px 36px;
+            padding: 14px 40px;
             margin: 12px;
             font-size: 18px;
             border: none;
@@ -53,12 +75,6 @@
             background-color: #ffffff;
             color: #333;
         }
-
-        #result {
-            margin-bottom: 25px;
-            font-size: 16px;
-            min-height: 30px;
-        }
     </style>
 </head>
 <body>
@@ -68,19 +84,18 @@
 
         <h2>I LOVE YOU MOREE ♡</h2>
 
-        <!-- ✅ FIXED class + id -->
-        <button class="yes" id="YESBtn" onclick="answerYES()">YES</button>
+        <button class="yes" id="yesBtn" onclick="answerYES()">YES</button>
         <button class="no" id="noBtn" onclick="answerNo()">No</button>
     </div>
 
     <script>
         let noCount = 0;
-        let YESScale = 1;
+        let yesScale = 1;
 
         function answerYES() {
             const result = document.getElementById("result");
-            result.style.color = "#2e7d32";
-            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN 💚<br>LOVE YOU MOREE CHELLO 😌";
+            result.className = "green";
+            result.innerHTML = "HAHAHAHAHA BOW BOWW I WINN (LOVE YOU MOREE CHELLO) 💚";
 
             setTimeout(() => {
                 window.location.href = "https://sammmmmmmm318.github.io/dharshhu-suprise/";
@@ -90,27 +105,27 @@
         function answerNo() {
             const result = document.getElementById("result");
             const noBtn = document.getElementById("noBtn");
-            const YESBtn = document.getElementById("YESBtn"); // ✅ FIXED ID
+            const yesBtn = document.getElementById("yesBtn");
 
             noCount++;
 
-            // 🔍 Increase YES size every NO click
-            YESScale += 0.25;
-            YESBtn.style.transform = `scale(${YESScale})`;
+            /* YES grows every NO */
+            yesScale += 0.25;
+            yesBtn.style.transform = `scale(${yesScale})`;
 
-            result.style.color = "#d32f2f";
+            result.className = "red";
 
             if (noCount === 1) {
                 result.innerHTML = "WRONG ANSWERR DUMBBOO 😤 TRY AGAIN!!";
             } 
             else if (noCount === 2) {
-                result.innerHTML = "GIVE IT TO MEE 😌 YOU KNOW THE TRUTH";
+                result.innerHTML = "U AINT GETTING YOUR GIFT UNTIL I GET THE RIGHT ANSWER 😌";
             } 
             else if (noCount === 3) {
-                result.innerHTML = "YOU AIN'T GETTING YOUR GIFT UNTIL I GET MY ANSWER 😈";
+                result.innerHTML = "GIVE IT TO ME PLEASEEE CHELLO 🥺";
             } 
             else {
-                result.innerHTML = "HAHAHAHA BOW BOW 😆 I WONN";
+                result.innerHTML = "HAHAHAHAHA BOW BOW 😈";
                 noBtn.style.display = "none";
             }
         }
@@ -118,3 +133,4 @@
 
 </body>
 </html>
+
