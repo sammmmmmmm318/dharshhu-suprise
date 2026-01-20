@@ -2,81 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gallery</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dharshini's Memory Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #e8f5e9, #ffffff);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        :root {
+            --bg-color: #f4f1ea;
+            --sage: #4a674a;
         }
 
-        h2 {
-            color: #2e7d32;
+        /* --- LOADING SCREEN --- */
+        #loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #b2beb5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- SCRAPBOOK LAYOUT --- */
+        body, html {
+            margin: 0; padding: 0;
+            background-color: #b2beb5;
+            font-family: 'Gochi Hand', cursive;
+            overflow-x: hidden;
+        }
+
+        .scrapbook-canvas {
+            background-color: var(--bg-color);
+            width: 100%;
+            min-height: 100vh;
+            padding: 40px 0;
+            position: relative;
+            visibility: hidden;
+        }
+
+        .header-title {
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+            font-size: 3rem;
+            color: var(--sage);
             margin-bottom: 20px;
         }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            width: 90%;
-            max-width: 600px;
+        /* Film Strip Container */
+        .film-strip {
+            background: #1a1a1a;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center; /* Centers the 5 photos */
+            gap: 8px;
+            border-top: 3px dashed rgba(255,255,255,0.3);
+            border-bottom: 3px dashed rgba(255,255,255,0.3);
+            margin: 30px -10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .gallery img {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s;
+        /* Individual Photo in Strip */
+        .film-strip img {
+            width: 18%; /* Fits 5 photos perfectly across mobile */
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border: 1px solid #333;
         }
 
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-
-        .note {
-            margin-top: 25px;
-            font-size: 14px;
-            color: #555;
-        }
+        /* Random tilts for the 5 strips */
+        .strip-0 { transform: rotate(-2deg); }
+        .strip-1 { transform: rotate(2deg); }
+        .strip-2 { transform: rotate(-1.5deg); }
+        .strip-3 { transform: rotate(1deg); }
+        .strip-4 { transform: rotate(-2.5deg); }
 
         .back-btn {
-            margin-top: 20px;
-            padding: 10px 22px;
-            border-radius: 25px;
-            border: none;
-            background: #2e7d32;
-            color: #fff;
-            font-size: 14px;
-            cursor: pointer;
+            display: block; width: fit-content; margin: 50px auto;
+            padding: 12px 30px; background: var(--sage);
+            color: white; text-decoration: none; border-radius: 25px;
         }
     </style>
 </head>
 <body>
 
-    <h2>Our Memories ♡</h2>
-
-    <div class="gallery">
-        <!-- Replace with your actual images -->
-        <img src="img1.jpg" alt="Memory 1">
-        <img src="img2.jpg" alt="Memory 2">
-        <img src="img3.jpg" alt="Memory 3">
-        <img src="img4.jpg" alt="Memory 4">
+    <div id="loader">
+        <div class="spinner"></div>
+        <div class="loading-text" style="color:white; margin-top:10px;">Developing...</div>
     </div>
 
-    <div class="note">Scroll and smile 💚</div>
+    <div class="scrapbook-canvas" id="main-content">
+        <h1 class="header-title">January Dump</h1>
+        
+        <div id="strips-wrapper"></div>
 
-    <button class="back-btn" onclick="goBack()">Go Back</button>
+        <a href="index.html" class="back-btn">← Back to Menu</a>
+    </div>
 
     <script>
+        const totalPhotos = 25; // 5 strips * 5 photos = 25
+        const photosPerStrip = 5;
+        const wrapper = document.getElementById('strips-wrapper');
+        let loadedCount = 0;
+
+        // Create the strips
+        for (let s = 0; s < 5; s++) {
+            const stripDiv = document.createElement('div');
+            stripDiv.className = `film-strip strip-${s}`;
+            stripDiv.id = `strip-${s}`;
+            wrapper.appendChild(stripDiv);
+        }
+
+        // Add photos to strips
+        for (let i = 1; i <= totalPhotos; i++) {
+            const img = new Image();
+            img.src = `${i}.jpg`;
+            
+            img.onload = () => {
+                loadedCount++;
+                if (loadedCount === totalPhotos) hideLoader();
+            };
+            img.onerror = () => {
+                loadedCount++;
+                if (loadedCount === totalPhotos) hideLoader();
+            };
+
+            // Determine which strip (0-4) the photo belongs to
+            const stripIndex = Math.floor((i - 1) / photosPerStrip);
+            const target = document.getElementById(`strip-${stripIndex}`);
+            if (target) target.appendChild(img);
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('main-content').style.visibility = 'visible';
+            }, 500);
+
         // ✅ Mark Gallery (card-3) as completed
         localStorage.setItem('card-3', 'done');
 
