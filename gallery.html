@@ -33,98 +33,106 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- SCRAPBOOK LAYOUT --- */
-        body, html {
-            margin: 0; padding: 0;
-            background-color: #b2beb5;
+        /* --- MERGED BODY & CANVAS --- */
+        body {
+            margin: 0; 
+            padding: 10px 0;
+            background-image: url(gallerybg.jpg);
             font-family: 'Gochi Hand', cursive;
-            overflow-x: hidden;
-        }
-
-        .scrapbook-canvas {
-            background-color: var(--bg-color);
             width: 100%;
-            min-height: 100vh;
-            padding: 40px 0;
-            position: relative;
+            height: 100vh; /* Fixed to phone height */
+            overflow: hidden; /* No scrolling allowed */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Spreads content top-to-bottom */
+            box-sizing: border-box;
             visibility: hidden; /* Hidden until images load */
         }
 
         .header-title {
             font-family: 'Great Vibes', cursive;
             text-align: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--sage);
-            margin-bottom: 20px;
+            margin: 5px 0;
+            flex-shrink: 0;
+        }
+
+        /* Container to hold the strips */
+        #strips-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly; /* Distributes strips across the tall screen */
+            width: 100%;
         }
 
         /* Film Strip Container */
         .film-strip {
             background: #1a1a1a;
-            padding: 15px 0;
+            padding: 10px 0;
             display: flex;
             justify-content: center; 
-            gap: 10px;
-            border-top: 3px dashed rgba(255,255,255,0.3);
-            border-bottom: 3px dashed rgba(255,255,255,0.3);
-            margin: 30px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            gap: 5px;
+            border-top: 2px dashed rgba(255,255,255,0.3);
+            border-bottom: 2px dashed rgba(255,255,255,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             width: 100%;
         }
 
-        /* Individual Photo in Strip */
+        /* Individual Photo - Sized for 5 per row */
         .film-strip img {
-            width: 17%; /* Adjusted to fit 5 photos with gaps */
+            width: calc(20% - 8px); 
             aspect-ratio: 1/1;
             object-fit: cover;
             border: 1px solid #333;
-            background: #333; /* Placeholder color while loading */
+            background: #222;
         }
 
-        /* Random tilts for the 5 strips */
-        .strip-0 { transform: rotate(-1.5deg); }
-        .strip-1 { transform: rotate(1.5deg); }
-        .strip-2 { transform: rotate(-1deg); }
-        .strip-3 { transform: rotate(1.2deg); }
-        .strip-4 { transform: rotate(-2deg); }
+        /* Subtle tilts for the 5 strips */
+        .strip-0 { transform: rotate(-1.2deg); }
+        .strip-1 { transform: rotate(1.2deg); }
+        .strip-2 { transform: rotate(-0.8deg); }
+        .strip-3 { transform: rotate(1deg); }
+        .strip-4 { transform: rotate(-1.5deg); }
 
         .back-btn {
             display: block; 
             width: fit-content; 
-            margin: 50px auto;
-            padding: 12px 30px; 
+            margin: 10px auto;
+            padding: 10px 30px; 
             background: var(--sage);
             color: white; 
             text-decoration: none; 
             border-radius: 25px;
-            transition: transform 0.2s;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            z-index: 10;
         }
-        .back-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <div class="loading-text" style="color:white; margin-top:10px;">Developing Memories...</div>
+        <div style="color:white; margin-top:10px;">Developing...</div>
     </div>
 
-    <div class="scrapbook-canvas" id="main-content">
-        <h1 class="header-title"> asdf</h1>
-        
-        <div id="strips-wrapper"></div>
+    <h1 class="header-title">Glimpse of us!!</h1>
+    
+    <div id="strips-wrapper">
+        </div>
 
-        <a href="index.html" class="back-btn">← Back to Menu</a>
-    </div>
+    <a href="index.html" class="back-btn">← Back to Home</a>
 
     <script>
-        const totalPhotos = 25; // 5 strips * 5 photos
+        const totalPhotos = 25; 
         const photosPerStrip = 5;
         const wrapper = document.getElementById('strips-wrapper');
         let loadedCount = 0;
         let isFinished = false;
 
-        // 1. Create the 5 strip containers first
+        // Generate Strips
         for (let s = 0; s < 5; s++) {
             const stripDiv = document.createElement('div');
             stripDiv.className = `film-strip strip-${s}`;
@@ -132,50 +140,37 @@
             wrapper.appendChild(stripDiv);
         }
 
-        // 2. Function to show content
-        function hideLoader() {
-            if (isFinished) return; // Prevent running twice
+        function revealPage() {
+            if (isFinished) return;
             isFinished = true;
             
-            document.getElementById('loader').style.opacity = '0';
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('main-content').style.visibility = 'visible';
+                loader.style.display = 'none';
+                document.body.style.visibility = 'visible';
             }, 500);
 
-            // Mark Gallery as completed
             localStorage.setItem('card-3', 'done');
         }
 
-        // 3. Safety Fallback: If images take > 5 seconds, show page anyway
-        setTimeout(() => {
-            if (!isFinished) {
-                console.log("Loading taking too long, showing page anyway...");
-                hideLoader();
-            }
-        }, 5000);
+        // Safety timeout for tall screens/slow connections
+        setTimeout(() => { if (!isFinished) revealPage(); }, 4500);
 
-        // 4. Load images and place them in strips
+        // Load and Place Images
         for (let i = 1; i <= totalPhotos; i++) {
             const img = new Image();
-            img.src = `${i}.jpg`; // Ensure your files are named 1.jpg, 2.jpg...
+            img.src = `${i}.jpg`; 
             
             img.onload = img.onerror = () => {
                 loadedCount++;
-                if (loadedCount >= totalPhotos) {
-                    hideLoader();
-                }
+                if (loadedCount >= totalPhotos) revealPage();
             };
 
-            // Determine which strip (0-4) the photo belongs to
             const stripIndex = Math.floor((i - 1) / photosPerStrip);
             const targetStrip = document.getElementById(`strip-${stripIndex}`);
-            if (targetStrip) {
-                targetStrip.appendChild(img);
-            }
+            if (targetStrip) targetStrip.appendChild(img);
         }
     </script>
-
 </body>
 </html>
-
