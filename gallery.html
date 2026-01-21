@@ -33,20 +33,21 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- MERGED BODY & CANVAS --- */
+        /* --- BODY & LAYOUT --- */
         body {
             margin: 0; 
-            padding: 10px 0;
+            padding: 20px 0;
             background-image: url(gallerybg.jpg);
+            background-attachment: fixed; /* Keeps background still while scrolling */
             font-family: 'Gochi Hand', cursive;
             width: 100%;
-            height: 100vh; /* Fixed to phone height */
-            overflow: hidden; /* No scrolling allowed */
+            /* SCROLL ENABLED: Changed from height to min-height and removed overflow:hidden */
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Spreads content top-to-bottom */
+            justify-content: flex-start; 
             box-sizing: border-box;
-            visibility: hidden; /* Hidden until images load */
+            visibility: hidden; 
         }
 
         .header-title {
@@ -54,23 +55,23 @@
             text-align: center;
             font-size: 2.5rem;
             color: var(--sage);
-            margin: 5px 0;
+            margin: 10px 0 20px 0;
             flex-shrink: 0;
         }
 
         /* Container to hold the strips */
         #strips-wrapper {
-            flex-grow: 1;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly; /* Distributes strips across the tall screen */
-            width: 100%;
+            gap: 25px; /* Space between strips */
+            padding-bottom: 30px;
         }
 
         /* Film Strip Container */
         .film-strip {
             background: #1a1a1a;
-            padding: 10px 0;
+            padding: 12px 0;
             display: flex;
             justify-content: center; 
             gap: 5px;
@@ -80,7 +81,7 @@
             width: 100%;
         }
 
-        /* Individual Photo - Sized for 5 per row */
+        /* Individual Photo */
         .film-strip img {
             width: calc(20% - 8px); 
             aspect-ratio: 1/1;
@@ -89,7 +90,7 @@
             background: #222;
         }
 
-        /* Subtle tilts for the 5 strips */
+        /* Subtle tilts */
         .strip-0 { transform: rotate(-1.2deg); }
         .strip-1 { transform: rotate(1.2deg); }
         .strip-2 { transform: rotate(-0.8deg); }
@@ -99,8 +100,8 @@
         .back-btn {
             display: block; 
             width: fit-content; 
-            margin: 10px auto;
-            padding: 10px 30px; 
+            margin: 20px auto;
+            padding: 12px 35px; 
             background: var(--sage);
             color: white; 
             text-decoration: none; 
@@ -154,7 +155,7 @@
             localStorage.setItem('card-3', 'done');
         }
 
-        // Safety timeout for tall screens/slow connections
+        // Safety timeout
         setTimeout(() => { if (!isFinished) revealPage(); }, 4500);
 
         // Load and Place Images
