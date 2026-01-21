@@ -47,7 +47,7 @@
             min-height: 100vh;
             padding: 40px 0;
             position: relative;
-            visibility: hidden;
+            visibility: hidden; /* Hidden until images load */
         }
 
         .header-title {
@@ -61,47 +61,56 @@
         /* Film Strip Container */
         .film-strip {
             background: #1a1a1a;
-            padding: 10px 0;
+            padding: 15px 0;
             display: flex;
-            justify-content: center; /* Centers the 5 photos */
-            gap: 8px;
+            justify-content: center; 
+            gap: 10px;
             border-top: 3px dashed rgba(255,255,255,0.3);
             border-bottom: 3px dashed rgba(255,255,255,0.3);
-            margin: 30px -10px;
+            margin: 30px 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 100%;
         }
 
         /* Individual Photo in Strip */
         .film-strip img {
-            width: 18%; /* Fits 5 photos perfectly across mobile */
+            width: 17%; /* Adjusted to fit 5 photos with gaps */
             aspect-ratio: 1/1;
             object-fit: cover;
             border: 1px solid #333;
+            background: #333; /* Placeholder color while loading */
         }
 
         /* Random tilts for the 5 strips */
-        .strip-0 { transform: rotate(-2deg); }
-        .strip-1 { transform: rotate(2deg); }
-        .strip-2 { transform: rotate(-1.5deg); }
-        .strip-3 { transform: rotate(1deg); }
-        .strip-4 { transform: rotate(-2.5deg); }
+        .strip-0 { transform: rotate(-1.5deg); }
+        .strip-1 { transform: rotate(1.5deg); }
+        .strip-2 { transform: rotate(-1deg); }
+        .strip-3 { transform: rotate(1.2deg); }
+        .strip-4 { transform: rotate(-2deg); }
 
         .back-btn {
-            display: block; width: fit-content; margin: 50px auto;
-            padding: 12px 30px; background: var(--sage);
-            color: white; text-decoration: none; border-radius: 25px;
+            display: block; 
+            width: fit-content; 
+            margin: 50px auto;
+            padding: 12px 30px; 
+            background: var(--sage);
+            color: white; 
+            text-decoration: none; 
+            border-radius: 25px;
+            transition: transform 0.2s;
         }
+        .back-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <div class="loading-text" style="color:white; margin-top:10px;">Developing...</div>
+        <div class="loading-text" style="color:white; margin-top:10px;">Developing Memories...</div>
     </div>
 
     <div class="scrapbook-canvas" id="main-content">
-        <h1 class="header-title">January Dump</h1>
+        <h1 class="header-title"> asdf</h1>
         
         <div id="strips-wrapper"></div>
 
@@ -109,12 +118,13 @@
     </div>
 
     <script>
-        const totalPhotos = 25; // 5 strips * 5 photos = 25
+        const totalPhotos = 25; // 5 strips * 5 photos
         const photosPerStrip = 5;
         const wrapper = document.getElementById('strips-wrapper');
         let loadedCount = 0;
+        let isFinished = false;
 
-        // Create the strips
+        // 1. Create the 5 strip containers first
         for (let s = 0; s < 5; s++) {
             const stripDiv = document.createElement('div');
             stripDiv.className = `film-strip strip-${s}`;
@@ -122,40 +132,50 @@
             wrapper.appendChild(stripDiv);
         }
 
-        // Add photos to strips
-        for (let i = 1; i <= totalPhotos; i++) {
-            const img = new Image();
-            img.src = `${i}.jpg`;
-            
-            img.onload = () => {
-                loadedCount++;
-                if (loadedCount === totalPhotos) hideLoader();
-            };
-            img.onerror = () => {
-                loadedCount++;
-                if (loadedCount === totalPhotos) hideLoader();
-            };
-
-            // Determine which strip (0-4) the photo belongs to
-            const stripIndex = Math.floor((i - 1) / photosPerStrip);
-            const target = document.getElementById(`strip-${stripIndex}`);
-            if (target) target.appendChild(img);
-        }
-
+        // 2. Function to show content
         function hideLoader() {
+            if (isFinished) return; // Prevent running twice
+            isFinished = true;
+            
             document.getElementById('loader').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('main-content').style.visibility = 'visible';
             }, 500);
 
-        // ✅ Mark Gallery (card-3) as completed
-        localStorage.setItem('card-3', 'done');
+            // Mark Gallery as completed
+            localStorage.setItem('card-3', 'done');
+        }
 
-        function goBack() {
-            window.location.href = "index.html"; // change if needed
+        // 3. Safety Fallback: If images take > 5 seconds, show page anyway
+        setTimeout(() => {
+            if (!isFinished) {
+                console.log("Loading taking too long, showing page anyway...");
+                hideLoader();
+            }
+        }, 5000);
+
+        // 4. Load images and place them in strips
+        for (let i = 1; i <= totalPhotos; i++) {
+            const img = new Image();
+            img.src = `${i}.jpg`; // Ensure your files are named 1.jpg, 2.jpg...
+            
+            img.onload = img.onerror = () => {
+                loadedCount++;
+                if (loadedCount >= totalPhotos) {
+                    hideLoader();
+                }
+            };
+
+            // Determine which strip (0-4) the photo belongs to
+            const stripIndex = Math.floor((i - 1) / photosPerStrip);
+            const targetStrip = document.getElementById(`strip-${stripIndex}`);
+            if (targetStrip) {
+                targetStrip.appendChild(img);
+            }
         }
     </script>
 
 </body>
 </html>
+
